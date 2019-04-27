@@ -21,6 +21,6 @@ Equal object
 
 Dollar/Franc duplication
 
-Common equals
+~~Common equals~~
 
 Common times
