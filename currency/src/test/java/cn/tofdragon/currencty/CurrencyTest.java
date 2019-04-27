@@ -2,8 +2,6 @@ package cn.tofdragon.currencty;
 
 import org.junit.jupiter.api.Test;
 
-import cn.tofdragon.currency.Dollar;
-import cn.tofdragon.currency.Franc;
 import cn.tofdragon.currency.Money;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,7 +36,7 @@ public class CurrencyTest {
 
     @Test
     public void festFrancMultiplication(){
-        Franc five = Money.franc(5);
+        Money five = Money.franc(5);
 
         assertEquals(Money.franc(10), five.times(2));
         assertEquals(Money.franc(15), five.times(3));
