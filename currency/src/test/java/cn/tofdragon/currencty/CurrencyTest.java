@@ -2,6 +2,8 @@ package cn.tofdragon.currencty;
 
 import org.junit.jupiter.api.Test;
 
+import cn.tofdragon.currency.Bank;
+import cn.tofdragon.currency.Expression;
 import cn.tofdragon.currency.Money;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,5 +49,15 @@ public class CurrencyTest {
         assertEquals("USD", Money.dollar(1).currency());
         assertEquals("CHF", Money.franc(1).currency());
 
+    }
+
+    @Test
+    public void testSimpleAddition() {
+        Money five = Money.dollar(5);
+        Expression sum = five.plus(five);
+        Bank bank = new Bank();
+        Money reduced = bank.reduce(sum, "USD");
+
+        assertEquals(Money.dollar(10), reduced);
     }
 }
