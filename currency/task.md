@@ -8,3 +8,11 @@ Make "amount" private
 ~~Dollar side-effects ?~~
 
 Money rounding ?
+
+~~Equals~~
+
+HashCode
+
+Equal null
+
+Equal object

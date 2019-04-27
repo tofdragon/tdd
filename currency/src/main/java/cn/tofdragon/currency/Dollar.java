@@ -1,10 +1,7 @@
 package cn.tofdragon.currency;
 
 /**
- * 〈功能详细描述〉 描述
- *
  * @author sunjing
- * @since [产品/模块版本]
  */
 public class Dollar {
 
@@ -16,5 +13,11 @@ public class Dollar {
 
     public Dollar times(int multiplier) {
         return new Dollar(amount * multiplier);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Dollar dollar = (Dollar) obj;
+        return amount == dollar.amount;
     }
 }

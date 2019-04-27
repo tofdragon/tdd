@@ -5,12 +5,13 @@ import org.junit.jupiter.api.Test;
 import cn.tofdragon.currency.Dollar;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * 多货币
  *
  * @author sunjing
- * @since 0.21.0
  */
 public class CurrencyTest {
 
@@ -23,5 +24,11 @@ public class CurrencyTest {
 
         product = five.times(3);
         assertEquals(15, product.amount);
+    }
+
+    @Test
+    public void testEquality() {
+       assertTrue(new Dollar(5).equals(new Dollar(5)));
+       assertFalse(new Dollar(5).equals(new Dollar(6)));
     }
 }
