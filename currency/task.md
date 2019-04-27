@@ -23,7 +23,7 @@ Dollar/Franc duplication
 
 ~~Common equals~~
 
-Common times
+~~Common times~~
 
 ~~Compare Francs with Dollars~~
 

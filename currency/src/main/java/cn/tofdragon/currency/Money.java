@@ -4,7 +4,7 @@ package cn.tofdragon.currency;
  *
  * @author sunjing
  */
-public abstract class Money {
+public class Money {
 
     protected int amount;
 
@@ -26,10 +26,12 @@ public abstract class Money {
     @Override
     public boolean equals(Object obj) {
         Money money = (Money) obj;
-        return amount == money.amount && getClass().equals(obj.getClass());
+        return amount == money.amount && currency().equals(money.currency());
     }
 
-    public abstract Money times(int multiplier) ;
+    public Money times(int multiplier){
+        return new Money(amount * multiplier, currency);
+    }
 
     public String currency() {
         return currency;
