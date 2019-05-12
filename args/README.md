@@ -8,7 +8,7 @@ Problem Description:
 
 Flags should be one character, preceded by a minus sign   
 
-Each flag should have zero, or one value associated with it
+Each flagName should have zero, or one value associated with it
 
 如：
 

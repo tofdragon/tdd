@@ -16,6 +16,16 @@ final class SchemaProvider {
 
     private static List<Schema> schemas = new ArrayList<>();
 
+    /**
+     * 标记的前缀
+     */
+    private static final String FLAG_NAME_PREFIX = "-";
+
+    /**
+     * 标记的名字必须是字母
+     */
+    private static final String VALID_FLAG_NAME_REGEX = "-[a-zA-Z]+";
+
     static {
         schemas.add(new BooleanSchema());
         schemas.add(new IntegerSchema());
@@ -26,28 +36,36 @@ final class SchemaProvider {
         schemas.add(schema);
     }
 
-    boolean isValidSchema(String schemaFlag) {
-        if (!isValidSchemeFlagName(schemaFlag)) {
+    Schema findSchemaBy(String flagName) {
+        return schemas.stream()
+                .filter((schema) -> schema.flagName().equals(flagName))
+                .findAny().orElse(null);
+    }
+
+    boolean isValidSchema(String schemaFlagName) {
+        if (!isValidSchemaFlagName(schemaFlagName)) {
             return false;
         }
-
-        return schemaByFlag(schemaFlag) == null ? false : true;
+        return findSchemaBy(schemaFlagName) == null ? false : true;
     }
 
-    boolean isInValidSchema(String schemaFlag) {
-        return !(isValidSchema(schemaFlag));
+    boolean isInValidSchema(String schemaFlagName) {
+        return !isValidSchema(schemaFlagName);
     }
 
-    boolean isValidSchemeFlagName(String schemaFlag) {
-        if (schemaFlag.startsWith("-") && schemaFlag.matches("-[a-zA-Z]+")) {
+    boolean isValidSchemaFlagName(String schemaFlagName) {
+        if (schemaFlagNameMustPrecededByMinusSign(schemaFlagName)
+                && schemaFlagNameMustBeOneCharacter(schemaFlagName)) {
             return true;
         }
         return false;
     }
 
-    Schema schemaByFlag(String flag) {
-        return schemas.stream()
-                .filter((schema) -> schema.flag().equals(flag))
-                .findAny().orElse(null);
+    private boolean schemaFlagNameMustPrecededByMinusSign(String schemaFlagName) {
+        return schemaFlagName.startsWith(FLAG_NAME_PREFIX);
+    }
+
+    private boolean schemaFlagNameMustBeOneCharacter(String schemaFlagName) {
+        return schemaFlagName.matches(VALID_FLAG_NAME_REGEX);
     }
 }

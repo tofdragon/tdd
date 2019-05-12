@@ -4,12 +4,13 @@ import com.kata.Schema;
 
 /**
  * 布尔参数
+ *
  * @author sunjing
  */
 public final class BooleanSchema implements Schema {
 
     @Override
-    public String flag() {
+    public String flagName() {
         return "-l";
     }
 
@@ -19,7 +20,7 @@ public final class BooleanSchema implements Schema {
     }
 
     @Override
-    public Object parserValue(String value) {
+    public Object parseValue(String value) {
         return Boolean.valueOf(value);
     }
 }

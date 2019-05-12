@@ -4,12 +4,13 @@ import com.kata.Schema;
 
 /**
  * 字符串参数
+ *
  * @author sunjing
  */
 public final class StringSchema implements Schema {
 
     @Override
-    public String flag() {
+    public String flagName() {
         return "-s";
     }
 
@@ -19,7 +20,7 @@ public final class StringSchema implements Schema {
     }
 
     @Override
-    public Object parserValue(String value) {
+    public Object parseValue(String value) {
         return value;
     }
 }

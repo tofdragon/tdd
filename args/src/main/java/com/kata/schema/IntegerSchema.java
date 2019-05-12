@@ -4,12 +4,13 @@ import com.kata.Schema;
 
 /**
  * 整型参数
+ *
  * @author sunjing
  */
 public final class IntegerSchema implements Schema {
 
     @Override
-    public String flag() {
+    public String flagName() {
         return "-i";
     }
 
@@ -19,7 +20,7 @@ public final class IntegerSchema implements Schema {
     }
 
     @Override
-    public Object parserValue(String value) {
+    public Object parseValue(String value) {
         return Integer.parseInt(value);
     }
 }

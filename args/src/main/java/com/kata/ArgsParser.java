@@ -2,9 +2,7 @@ package com.kata;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
 import com.kata.exception.NotExistSchemaException;
@@ -16,20 +14,38 @@ import com.kata.exception.NotExistSchemaException;
  */
 public final class ArgsParser {
 
-    private Map<String, Object> argToValue = new HashMap<>();
+    private ParsedArgs parsedArgs = new ParsedArgs();
 
     private SchemaProvider schemaProvider = new SchemaProvider();
 
-    public void parser(String args) {
+    public void parse(String args) {
         Stack<String> argsStack = toArgsStack(args);
         while (!argsStack.empty()) {
-            String flagOfSchema = argsStack.pop();
-            parserArg(argsStack, flagOfSchema);
+            String flagName = argsStack.pop();
+            parseArg(argsStack, flagName);
         }
     }
 
-    public Object getValue(String schemaFlag) {
-        return argToValue.get(schemaFlag);
+    public Object getValue(String flagName) {
+        return parsedArgs.getValue(flagName);
+    }
+
+    public String getStringValue(String flagName) {
+        Object value = getValue(flagName);
+        if (value == null) {
+            return null;
+        }
+        return String.valueOf(value);
+    }
+
+    public Boolean getBooleanValue(String flagName) {
+        Object value = getValue(flagName);
+        return value == null ? null : Boolean.valueOf(value.toString());
+    }
+
+    public Integer getIntegerValue(String flagName) {
+        Object value = getValue(flagName);
+        return value == null ? null : Integer.valueOf(value.toString());
     }
 
     public void registerScheme(Schema schema) {
@@ -45,37 +61,37 @@ public final class ArgsParser {
         return stack;
     }
 
-    private void parserArg(Stack<String> argsStack, String flagOfSchema) {
-        if (schemaProvider.isInValidSchema(flagOfSchema)) {
+    private void parseArg(Stack<String> argsStack, String flagName) {
+        if (schemaProvider.isInValidSchema(flagName)) {
             throw new NotExistSchemaException("不合法的Schema");
         }
 
-        Schema schema = schemaProvider.schemaByFlag(flagOfSchema);
+        Schema schema = schemaProvider.findSchemaBy(flagName);
         if (argsStack.empty()) {
             addDefaultValueOfSchema(schema);
             return;
         }
 
-        String flagOrValueOfSchema = argsStack.pop();
-        if (schemaProvider.isValidSchemeFlagName(flagOrValueOfSchema)
-                && schemaProvider.isInValidSchema(flagOrValueOfSchema)) {
+        String flagNameOrValue = argsStack.pop();
+        if (schemaProvider.isValidSchemaFlagName(flagNameOrValue)
+                && schemaProvider.isInValidSchema(flagNameOrValue)) {
             throw new NotExistSchemaException("不合法的Schema");
         }
 
-        if (schemaProvider.isValidSchemeFlagName(flagOrValueOfSchema)) {
-            argsStack.push(flagOrValueOfSchema);
+        if (schemaProvider.isValidSchemaFlagName(flagNameOrValue)) {
+            argsStack.push(flagNameOrValue);
             addDefaultValueOfSchema(schema);
             return;
         }
 
-        addArgValue(schema, flagOrValueOfSchema);
+        addArgValue(schema, flagNameOrValue);
     }
 
     private void addDefaultValueOfSchema(Schema schema) {
-        argToValue.put(schema.flag(), schema.defaultValue());
+        parsedArgs.addArg(schema.flagName(), schema.defaultValue());
     }
 
     private void addArgValue(Schema schema, String value) {
-        argToValue.put(schema.flag(), schema.parserValue(value));
+        parsedArgs.addArg(schema.flagName(), schema.parseValue(value));
     }
 }
