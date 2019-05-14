@@ -17,6 +17,7 @@ A number is fizz if it is divisible by 3 or if it has a 3 in it
 A number is buzz if it is divisible by 5 or if it has a 5 in it
  
 任务分解和优先级：
+
 1.it is divisible by 3 three print “Fizz” 
 
 2.it is divisible by 5 five print “Buzz”
