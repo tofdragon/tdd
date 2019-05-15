@@ -1,18 +1,13 @@
 package com.kata;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
-import com.kata.schema.BooleanSchema;
-import com.kata.schema.IntegerSchema;
-import com.kata.schema.PortSchema;
+import com.kata.exception.InValidSchemaException;
 import com.kata.schema.Schema;
-import com.kata.schema.StringSchema;
+import com.kata.value.Value;
 
 /**
  * 参数解析器
@@ -21,16 +16,7 @@ import com.kata.schema.StringSchema;
  */
 public final class ArgsParser {
 
-    private static List<Schema> schemas = new ArrayList<>();
-
-    private Map<String, Object> flagNameToValue = new HashMap<>();
-
-    static {
-        schemas.add(new IntegerSchema());
-        schemas.add(new BooleanSchema());
-        schemas.add(new StringSchema());
-        schemas.add(new PortSchema());
-    }
+    private ArgsValue argsValue = new ArgsValue();
 
     public void parse(String args) {
         Stack<String> argsStack = toArgsStack(args);
@@ -40,11 +26,11 @@ public final class ArgsParser {
     }
 
     public void registerSchema(Schema schema) {
-        schemas.add(schema);
+        SchemaProvider.addSchema(schema);
     }
 
     private Stack<String> toArgsStack(String args) {
-        List<String> parserArgs = Arrays.asList(args.split(" "));
+        List<String> parserArgs = Arrays.asList(args.split(ParserConfig.ARG_FLAG_SPLIT.getValue()));
         Collections.reverse(parserArgs);
 
         Stack<String> stack = new Stack<>();
@@ -53,54 +39,47 @@ public final class ArgsParser {
     }
 
     private void parseArg(Stack<String> argsStack) {
-        String currentFlagName = argsStack.pop();
-
-        if (findSchemaBy(currentFlagName) == null) {
-            throw new RuntimeException("不合法的Schema");
+        String flagName = argsStack.pop();
+        if (SchemaProvider.isInValidSchemeWith(flagName)) {
+            throw new InValidSchemaException(flagName);
         }
 
         if (argsStack.isEmpty()) {
-            addDefaultValue(currentFlagName);
+            addDefaultValue(flagName);
             return;
         }
 
         String flagValueOrNextFlagName = argsStack.pop();
-        if (flagValueOrNextFlagName.matches("-[a-zA-Z]+")) {
-            addDefaultValue(currentFlagName);
+        if (SchemaProvider.isValidFlagNameNamingConventions(flagValueOrNextFlagName)) {
+            addDefaultValue(flagName);
             argsStack.push(flagValueOrNextFlagName);
             return;
         }
 
-        flagNameToValue.put(currentFlagName, findSchemaBy(currentFlagName).parseValue(flagValueOrNextFlagName));
+        addArgsValue(flagName, SchemaProvider.findSchemaBy(flagName).parseValue(flagValueOrNextFlagName));
     }
 
     private void addDefaultValue(String currentFlagName) {
-        flagNameToValue.put(currentFlagName, findSchemaBy(currentFlagName).defaultValue());
+        addArgsValue(currentFlagName, SchemaProvider.findSchemaBy(currentFlagName).defaultValue());
     }
 
-    private Schema findSchemaBy(String flagName) {
-        return schemas.stream()
-                .filter((schema) -> schema.flagName().equals(flagName))
-                .findAny().orElse(null);
+    private void addArgsValue(String flagName, Value value) {
+        argsValue.addValue(flagName, value);
     }
 
     public boolean getBooleanValue(String flagName) {
-        Object value = flagNameToValue.get(flagName);
-        return value == null ? false : Boolean.valueOf(value.toString());
+        return argsValue.getBooleanValue(flagName);
     }
 
     public String getStringValue(String flagName) {
-        Object value = flagNameToValue.get(flagName);
-        return value == null ? null : value.toString();
+        return argsValue.getStringValue(flagName);
     }
 
     public int getIntegerValue(String flagName) {
-        Object value = flagNameToValue.get(flagName);
-        return value == null ? null : Integer.parseInt(value.toString());
+        return argsValue.getIntegerValue(flagName);
     }
 
-    public List<Object> getListValue(String flagName) {
-        Object value = flagNameToValue.get(flagName);
-        return value == null ? null : (List) (value);
+    public List getListValue(String flagName) {
+        return argsValue.getListValue(flagName);
     }
 }

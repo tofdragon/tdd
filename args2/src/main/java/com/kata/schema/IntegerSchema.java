@@ -1,24 +1,36 @@
 package com.kata.schema;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+import com.kata.value.IntegerValue;
+import com.kata.value.ListValue;
+import com.kata.value.Value;
+
 /**
- * 〈功能详细描述〉 描述
- *
  * @author sunjing
- * @since [产品/模块版本]
  */
-public class IntegerSchema implements Schema {
+public final class IntegerSchema implements Schema<ListValue> {
+
     @Override
     public String flagName() {
         return "-i";
     }
 
     @Override
-    public Object defaultValue() {
-        return 0;
+    public ListValue defaultValue() {
+        return ListValue.of(IntegerValue.of("0"));
     }
 
     @Override
-    public Object parseValue(String value) {
-        return Integer.parseInt(value.toString());
+    public ListValue parseValue(String value) {
+        List<Value> integerValueList = new LinkedList<>();
+
+        for(String str : Arrays.asList(value.split(",")) ){
+            integerValueList.add(IntegerValue.of(str));
+        }
+
+        return ListValue.of(integerValueList);
     }
 }

@@ -1,12 +1,11 @@
 package com.kata.schema;
 
+import com.kata.value.StringValue;
+
 /**
- * 〈功能详细描述〉 描述
- *
  * @author sunjing
- * @since [产品/模块版本]
  */
-public class PortSchema implements Schema {
+public final class PortSchema implements Schema<StringValue> {
 
     @Override
     public String flagName() {
@@ -14,12 +13,12 @@ public class PortSchema implements Schema {
     }
 
     @Override
-    public Object defaultValue() {
-        return "8000";
+    public StringValue defaultValue() {
+        return StringValue.of("8000");
     }
 
     @Override
-    public Object parseValue(String value) {
-        return value;
+    public StringValue parseValue(String value) {
+        return StringValue.of(value);
     }
 }

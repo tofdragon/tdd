@@ -2,10 +2,18 @@ package com.kata;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.management.StringValueExp;
 
 import org.junit.jupiter.api.Test;
 
 import com.kata.schema.Schema;
+import com.kata.value.IntegerValue;
+import com.kata.value.ListValue;
+import com.kata.value.StringValue;
+import com.kata.value.Value;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -143,7 +151,7 @@ public class ArgsParserTest {
         ArgsParser argsParser = new ArgsParser();
         argsParser.parse("-s my -i -1 -port 8888");
 
-        assertFalse(argsParser.getBooleanValue("-l"));
+        assertFalse(argsParser.getBooleanValue("-s"));
         assertEquals("8888", argsParser.getStringValue("-port"));
         assertEquals(-1, argsParser.getIntegerValue("-i"));
     }
@@ -151,22 +159,28 @@ public class ArgsParserTest {
     @Test
     public void should_return_list_value_when_customize(){
         ArgsParser argsParser = new ArgsParser();
-        argsParser.registerSchema(new Schema() {
+
+        argsParser.registerSchema(new Schema<ListValue>() {
             @Override
             public String flagName() {
                 return "-g";
             }
 
             @Override
-            public Object defaultValue() {
-                return Collections.emptyList();
+            public ListValue defaultValue() {
+                return ListValue.of(Collections.emptyList());
             }
 
             @Override
-            public Object parseValue(String value) {
-                return Arrays.asList(value.split(","));
-            }
+            public ListValue parseValue(String value) {
+                List<Value> integerValueList = new LinkedList<>();
 
+                for(String str : Arrays.asList(value.split(","))){
+                    integerValueList.add(IntegerValue.of(str));
+                }
+
+                return ListValue.of(integerValueList);
+            }
         });
 
         argsParser.parse("-g 1,2,3,4 -i -1 -port 8888");

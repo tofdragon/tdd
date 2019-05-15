@@ -1,24 +1,25 @@
 package com.kata.schema;
 
+import com.kata.value.BooleanValue;
+
 /**
- * 〈功能详细描述〉 描述
- *
  * @author sunjing
- * @since [产品/模块版本]
  */
-public class BooleanSchema implements Schema {
+public final class BooleanSchema implements Schema<BooleanValue> {
+
     @Override
     public String flagName() {
         return "-l";
     }
 
     @Override
-    public Object defaultValue() {
-        return false;
+    public BooleanValue defaultValue() {
+        return BooleanValue.falseValue();
     }
 
     @Override
-    public Object parseValue(String value) {
-        return Boolean.valueOf(value.toString());
+    public BooleanValue parseValue(String value) {
+        return BooleanValue.of(value);
     }
+
 }

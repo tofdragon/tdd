@@ -1,24 +1,24 @@
 package com.kata.schema;
 
+import com.kata.value.StringValue;
+
 /**
- * 〈功能详细描述〉 描述
- *
  * @author sunjing
- * @since [产品/模块版本]
  */
-public class StringSchema implements Schema {
+public final class StringSchema implements Schema<StringValue> {
+
     @Override
     public String flagName() {
         return "-s";
     }
 
     @Override
-    public Object defaultValue() {
-        return "";
+    public StringValue defaultValue() {
+        return StringValue.of("");
     }
 
     @Override
-    public Object parseValue(String value) {
-        return value;
+    public StringValue parseValue(String value) {
+        return StringValue.of(value);
     }
 }
