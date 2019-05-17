@@ -10,14 +10,10 @@ import java.util.Map;
  */
 public class ArgsValue {
 
-    private Map<String, Object> flagNameToValue = new HashMap<>();
+    private final Map<String, Object> flagNameToValue = new HashMap<>();
 
     void addValue(String flagName, Object value) {
         flagNameToValue.put(flagName, value);
-    }
-
-    Object getValue(String flagName) {
-        return flagNameToValue.get(flagName);
     }
 
     public boolean getBooleanValue(String flagName) {
@@ -30,5 +26,9 @@ public class ArgsValue {
 
     public Integer getIntegerValue(String flagName) {
         return Integer.parseInt(getValue(flagName).toString());
+    }
+
+    private Object getValue(String flagName) {
+        return flagNameToValue.get(flagName);
     }
 }

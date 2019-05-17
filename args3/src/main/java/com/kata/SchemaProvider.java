@@ -13,18 +13,18 @@ import com.kata.schema.StringSchema;
  */
 final class SchemaProvider {
 
-    private static final String VALID_FLAG_NAMING_REFEX = "-[a-zA-Z]+";
+    private static final String VALID_FLAG_NAMING_REGEX = "-[a-zA-Z]+";
 
-    private static List<Schema> schemas = new ArrayList<>();
+    private static final List<Schema> SCHEMAS = new ArrayList<>();
 
     static {
-        schemas.add(new IntegerSchema());
-        schemas.add(new StringSchema());
-        schemas.add(new BooleanSchema());
+        SCHEMAS.add(new IntegerSchema());
+        SCHEMAS.add(new StringSchema());
+        SCHEMAS.add(new BooleanSchema());
     }
 
     static void registerSchema(Schema schema) {
-        schemas.add(schema);
+        SCHEMAS.add(schema);
     }
 
     static boolean notExistSchemaForFlagName(String flagName) {
@@ -32,7 +32,7 @@ final class SchemaProvider {
     }
 
     static boolean isValidFlagNaming(String flagName) {
-        return flagName.matches(VALID_FLAG_NAMING_REFEX);
+        return flagName.matches(VALID_FLAG_NAMING_REGEX);
     }
 
     static Object defaultValueOfSchema(String flagName) {
@@ -44,6 +44,6 @@ final class SchemaProvider {
     }
 
     private static Schema findByFlagName(String flagName) {
-        return schemas.stream().filter((schema) -> schema.flagName().equals(flagName)).findAny().orElse(null);
+        return SCHEMAS.stream().filter((schema) -> schema.flagName().equals(flagName)).findAny().orElse(null);
     }
 }

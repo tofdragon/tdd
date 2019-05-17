@@ -64,7 +64,7 @@ public final class ArgsParser {
 
         private static final String ARGS_SPLIT_KEY = " ";
 
-        private Stack<String> stack = new Stack<>();
+        private final Stack<String> stack = new Stack<>();
 
         ArgsHolder(String args) {
             List<String> parsedArgs = Arrays.asList(args.split(ARGS_SPLIT_KEY));
