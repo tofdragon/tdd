@@ -1,7 +1,6 @@
 package com.kata.schema;
 
 /**
- *
  * @author sunjing
  */
 public final class IntegerSchema implements Schema {

@@ -49,7 +49,7 @@ public final class ArgsParser {
     }
 
     private Object defaultValueOfArg(String flagName) {
-       return SchemaProvider.defaultValueOfSchema(flagName);
+        return SchemaProvider.defaultValueOfSchema(flagName);
     }
 
     private Object normalValueOfArg(String flagName, String value) {

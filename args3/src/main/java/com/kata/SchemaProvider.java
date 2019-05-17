@@ -44,6 +44,6 @@ final class SchemaProvider {
     }
 
     private static Schema findByFlagName(String flagName) {
-        return schemas.stream().filter((schema)-> schema.flagName().equals(flagName)).findAny().orElse(null);
+        return schemas.stream().filter((schema) -> schema.flagName().equals(flagName)).findAny().orElse(null);
     }
 }
