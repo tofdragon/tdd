@@ -60,7 +60,7 @@ public final class ArgsParser {
         SchemaProvider.registerSchema(schema);
     }
 
-    private class ArgsHolder {
+    private static class ArgsHolder {
 
         private static final String ARGS_SPLIT_KEY = " ";
 
