@@ -2,85 +2,96 @@ package com.kata;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
+import com.kata.exception.NotExistSchemaException;
+import com.kata.schema.Schema;
+
+/**
+ * @author sunjing
+ */
 public final class ArgsParser {
 
-    private static Map<String, Object> flagNameToDefaultValue = new HashMap<>();
-
-    private Map<String, Object> flagNameToValue = new HashMap<>();
-
-    static {
-        flagNameToDefaultValue.put("-i", 0);
-        flagNameToDefaultValue.put("-s", "");
-        flagNameToDefaultValue.put("-l", false);
+    public ArgsValue parse(String args) {
+        return parseArgsValue(new ArgsHolder(args));
     }
 
-    public void parse(String args) {
-        Stack<String> argsStack = toArgsStack(args);
-        while (!argsStack.empty()) {
-            parseArg(argsStack);
+    private ArgsValue parseArgsValue(ArgsHolder argsHolder) {
+        if (argsHolder.isEmpty()) {
+            return null;
+        }
+
+        ArgsValue argsValue = new ArgsValue();
+        while (argsHolder.isNotEmpty()) {
+            String flagName = argsHolder.popCurrent();
+            Object value = parseArgValue(argsHolder, flagName);
+            argsValue.addValue(flagName, value);
+        }
+        return argsValue;
+    }
+
+    private Object parseArgValue(ArgsHolder argsHolder, String flagName) {
+        if (SchemaProvider.notExistSchemaForFlagName(flagName)) {
+            throw new NotExistSchemaException(flagName);
+        }
+
+        if (argsHolder.isEmpty()) {
+            return defaultValueOfArg(flagName);
+        }
+
+        String flagNameOrValueOfNext = argsHolder.popNext();
+        if (SchemaProvider.isValidFlagNaming(flagNameOrValueOfNext)) {
+            argsHolder.renewPush(flagNameOrValueOfNext);
+            return defaultValueOfArg(flagName);
+        }
+        return normalValueOfArg(flagName, flagNameOrValueOfNext);
+    }
+
+    private Object defaultValueOfArg(String flagName) {
+       return SchemaProvider.defaultValueOfSchema(flagName);
+    }
+
+    private Object normalValueOfArg(String flagName, String value) {
+        return SchemaProvider.parserValueOfSchema(flagName, value);
+    }
+
+    public void registerSchema(Schema schema) {
+        SchemaProvider.registerSchema(schema);
+    }
+
+    private class ArgsHolder {
+
+        private static final String ARGS_SPLIT_KEY = " ";
+
+        private Stack<String> stack = new Stack<>();
+
+        ArgsHolder(String args) {
+            List<String> parsedArgs = Arrays.asList(args.split(ARGS_SPLIT_KEY));
+            Collections.reverse(parsedArgs);
+
+            stack.addAll(parsedArgs);
+        }
+
+        boolean isEmpty() {
+            return stack.isEmpty();
+        }
+
+        boolean isNotEmpty() {
+            return !isEmpty();
+        }
+
+        void renewPush(String arg) {
+            stack.push(arg);
+        }
+
+        String popCurrent() {
+            return stack.pop();
+        }
+
+        String popNext() {
+            return stack.pop();
         }
     }
 
-    public void registerSchema(String flagName, Object defaultValue) {
-        flagNameToDefaultValue.put(flagName, defaultValue);
-    }
-
-    private void parseArg(Stack<String> argsStack) {
-        String flagName = argsStack.pop();
-
-        if (notExistFlag(flagName)) {
-            throw new RuntimeException("不合法的Schema");
-        }
-
-        if (argsStack.isEmpty()) {
-            addDefaultValue(flagName);
-            return;
-        }
-
-        String flagNameOrValue = argsStack.pop();
-        if (isValidFlag(flagNameOrValue)) {
-            addDefaultValue(flagName);
-            argsStack.push(flagNameOrValue);
-            return;
-        }
-        flagNameToValue.put(flagName, flagNameOrValue);
-    }
-
-    private boolean isValidFlag(String flagNameOrValue) {
-        return flagNameOrValue.matches("-[a-zA-Z]+");
-    }
-
-    private boolean notExistFlag(String flagName) {
-        return !flagNameToDefaultValue.containsKey(flagName);
-    }
-
-    private void addDefaultValue(String flagName) {
-        flagNameToValue.put(flagName, flagNameToDefaultValue.get(flagName));
-    }
-
-    private Stack<String> toArgsStack(String args) {
-        List<String> parserArgs = Arrays.asList(args.split(" "));
-        Collections.reverse(parserArgs);
-
-        Stack<String> stack = new Stack<>();
-        stack.addAll(parserArgs);
-        return stack;
-    }
-
-    public boolean getBooleanValue(String flagName) {
-        return Boolean.valueOf(flagNameToValue.get(flagName).toString());
-    }
-
-    public String getStringValue(String flagName) {
-        return flagNameToValue.get(flagName).toString();
-    }
-
-    public int getIntegerValue(String flagName) {
-        return Integer.parseInt(flagNameToValue.get(flagName).toString());
-    }
 }
