@@ -6,4 +6,6 @@ package com.kata;
 public interface Rule {
 
     void apply(StringBuffer context, String number);
+
+    void nextRule(Rule rule);
 }

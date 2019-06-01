@@ -16,12 +16,6 @@ public final class ContainsRule implements Rule {
         this.appendStr = appendStr;
     }
 
-    public ContainsRule(int containsNumber, String appendStr, Rule nextRule) {
-        this.containsNumber = containsNumber;
-        this.appendStr = appendStr;
-        this.nextRule = nextRule;
-    }
-
     @Override
     public void apply(StringBuffer context, String number) {
         for (char c : number.toCharArray()) {
@@ -33,5 +27,10 @@ public final class ContainsRule implements Rule {
         if (nextRule != null) {
             nextRule.apply(context, number);
         }
+    }
+
+    @Override
+    public void nextRule(Rule rule) {
+        this.nextRule = rule;
     }
 }

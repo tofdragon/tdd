@@ -12,4 +12,8 @@ public class OriginalNumberRule implements Rule {
         }
         context.append(number);
     }
+
+    @Override
+    public void nextRule(Rule rule) {
+    }
 }

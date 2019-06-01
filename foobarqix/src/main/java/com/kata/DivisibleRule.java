@@ -16,12 +16,6 @@ public final class DivisibleRule implements Rule {
         this.addString = addString;
     }
 
-    public DivisibleRule(int divisibleNumber, String addString, Rule nextRule) {
-        this.divisibleNumber = divisibleNumber;
-        this.addString = addString;
-        this.nextRule = nextRule;
-    }
-
     @Override
     public void apply(StringBuffer context, String number) {
         if (Integer.parseInt(number) % divisibleNumber == 0) {
@@ -31,5 +25,10 @@ public final class DivisibleRule implements Rule {
         if (nextRule != null) {
             nextRule.apply(context, number);
         }
+    }
+
+    @Override
+    public void nextRule(Rule rule) {
+        this.nextRule = rule;
     }
 }
