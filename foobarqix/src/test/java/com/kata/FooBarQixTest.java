@@ -2,7 +2,17 @@ package com.kata;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import com.kata.rule.Rule;
 
+import static com.kata.rule.RuleFactory.allOf;
+import static com.kata.rule.RuleFactory.not;
+import static com.kata.rule.RuleFactory.numberOfTimesOfMatch;
+import static com.kata.rule.RuleFactory.of;
+import static com.kata.rule.converter.Converter.nop;
+import static com.kata.rule.converter.Converter.to;
+import static com.kata.rule.matcher.Matcher.always;
+import static com.kata.rule.matcher.Matcher.numberOfTimesOfContains;
+import static com.kata.rule.matcher.Matcher.times;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -15,7 +25,21 @@ public class FooBarQixTest {
     @BeforeEach
     public void beforeEach() {
         // given
-        fooBarQix = new FooBarQix();
+        fooBarQix = new FooBarQix(createRule());
+    }
+
+    private Rule createRule() {
+        Rule threeTimes = of(times(3), to("Foo"));
+        Rule fiveTimes =  of(times(5), to("Bar"));
+        Rule sevenTimes = of(times(7), to("Qix"));
+
+        Rule threeContains= numberOfTimesOfMatch(numberOfTimesOfContains(3), to("Foo"));
+        Rule fiveContains =  numberOfTimesOfMatch(numberOfTimesOfContains(5), to("Bar"));
+        Rule sevenContains = numberOfTimesOfMatch(numberOfTimesOfContains(7), to("Qix"));
+
+        Rule timesOrContains = allOf(threeTimes, fiveTimes, sevenTimes, threeContains, fiveContains, sevenContains);
+
+        return not(timesOrContains, of(always(true), nop()));
     }
 
     @Test

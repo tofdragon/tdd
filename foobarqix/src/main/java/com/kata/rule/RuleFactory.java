@@ -1,6 +1,7 @@
 package com.kata.rule;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import com.kata.rule.converter.Converter;
@@ -17,34 +18,33 @@ public final class RuleFactory {
     public static Rule of(Matcher matcher, Converter converter) {
         return num -> {
             MatchResult matchResult = matcher.matches(num);
-            if (!matchResult.isMatch()) {
+            return matchResult.isMatch() ? converter.to(num) : "";
+        };
+    }
+
+    public static Rule numberOfTimesOfMatch(Matcher matcher, Converter converter) {
+        return num -> {
+            MatchResult matchResult = matcher.matches(num);
+            if (matchResult.isNotMatch()) {
                 return "";
             }
 
-            if (matchResult.getNumberOfTimesOfMatch() == 0) {
-                return converter.to(num);
-            }
-
             StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < matchResult.getNumberOfTimesOfMatch(); i++) {
+            IntStream.range(0, matchResult.numberOfTimesOfMatch()).forEach((index) -> {
                 sb.append(converter.to(num));
-            }
-
+            });
             return sb.toString();
         };
     }
 
     public static Rule allOf(Rule... rules) {
-        return n -> stringStream(n, rules).collect(joining());
+        return num -> stringStream(num, rules).collect(joining());
     }
 
-    public static Rule not(Rule rule1, Rule rule2) {
-        return n -> {
-            String result = rule1.apply(n);
-            if (result == null || result.length() <= 0) {
-                return rule2.apply(n);
-            }
-            return result;
+    public static Rule not(Rule primary, Rule next) {
+        return num -> {
+            String result = primary.apply(num);
+            return (result != null && result.length() > 0) ? result : next.apply(num);
         };
     }
 

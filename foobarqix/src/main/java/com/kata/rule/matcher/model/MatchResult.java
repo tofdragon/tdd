@@ -34,7 +34,11 @@ public final class MatchResult {
         return isMatch;
     }
 
-    public int getNumberOfTimesOfMatch() {
+    public boolean isNotMatch() {
+        return !isMatch();
+    }
+
+    public int numberOfTimesOfMatch() {
         return numberOfTimesOfMatch;
     }
 }
