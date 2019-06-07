@@ -14,15 +14,15 @@ final class Unit {
     private Unit() {
     }
 
-    public static Unit of(int num, String content) {
+    static Unit of(int num, String content) {
         Unit unit = new Unit();
         unit.num = num;
         unit.content = content;
         return unit;
     }
 
-    public String getContent() {
-        return content;
+    boolean hasSameContent(Unit unit) {
+        return this.content.equals(unit.content);
     }
 
     @Override

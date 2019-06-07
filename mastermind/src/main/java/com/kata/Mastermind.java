@@ -9,6 +9,28 @@ public final class Mastermind {
         Answer rightAnswer = Answer.of(secret);
         Answer guessAnswer = Answer.of(guess);
 
-        return rightAnswer.wellPlaced(guessAnswer) + "," + rightAnswer.misPlaced(guessAnswer);
+        GuessResult guessResult = guessResult(rightAnswer, guessAnswer);
+        return guessResult.wellPlaced() + "," + guessResult.misPlaced();
     }
+
+    private GuessResult guessResult(Answer rightAnswer, Answer guessAnswer) {
+        GuessResult guessResult = new GuessResult();
+
+        rightAnswer.units().stream().forEach(current -> {
+            Unit foundUnit = guessAnswer.findUnit(current);
+            if (foundUnit == null) {
+                return;
+            }
+
+            if (current.equals(foundUnit)) {
+                guessResult.plusWellPlaced();
+                return;
+            }
+
+            guessResult.plusMisPlaced();
+        });
+
+        return guessResult;
+    }
+
 }
