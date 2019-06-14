@@ -22,27 +22,15 @@ public class Wallet {
         for (Stock stock : stocks) {
 
             if (currency.equals("euros")) {
-                if (stock.getType().equals("petroleum")) {
-                    total += stock.getAmount() * 2;
-                } else if (stock.getType().equals("euros")) {
-                    total += stock.getAmount();
-                }
+                total += RateProvider.rate(stock, "euros");
             }
 
             if (currency.equals("petroleum")) {
-                if (stock.getType().equals("euros")) {
-                    total += stock.getAmount() /2;
-                } else if (stock.getType().equals("petroleum")) {
-                    total += stock.getAmount();
-                }
+                total += RateProvider.rate(stock, "petroleum");
             }
 
             if (currency.equals("dollars")) {
-                if (stock.getType().equals("petroleum")) {
-                    total += stock.getAmount() * 3;
-                } else if (stock.getType().equals("dollars")) {
-                    total += stock.getAmount();
-                }
+                total += RateProvider.rate(stock, "dollars");
             }
 
         }
