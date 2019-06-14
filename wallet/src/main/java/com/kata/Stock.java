@@ -1,24 +1,26 @@
 package com.kata;
 
 /**
- * 〈功能详细描述〉 描述
- *
  * @author sunjing
- * @since [产品/模块版本]
  */
-public class Stock {
+public final class Stock {
 
-    private int amount;
+    private int quantity;
 
     private String type;
 
-    public Stock(int amount, String type) {
-        this.amount = amount;
-        this.type = type;
+    private Stock(){
     }
 
-    public int getAmount() {
-        return amount;
+    public static Stock of(int quantity, String type) {
+        Stock stock = new Stock();
+        stock.quantity = quantity;
+        stock.type = type;
+        return stock;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 
     public String getType() {

@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 〈功能详细描述〉 描述
- *
  * @author sunjing
- * @since [产品/模块版本]
  */
-public class Wallet {
+public final class Wallet {
 
     private List<Stock> stocks = new ArrayList<>();
 
@@ -17,23 +14,8 @@ public class Wallet {
         stocks.add(stock);
     }
 
-    public int value(String currency) {
-        int total = 0;
-        for (Stock stock : stocks) {
-
-            if (currency.equals("euros")) {
-                total += RateProvider.rate(stock, "euros");
-            }
-
-            if (currency.equals("petroleum")) {
-                total += RateProvider.rate(stock, "petroleum");
-            }
-
-            if (currency.equals("dollars")) {
-                total += RateProvider.rate(stock, "dollars");
-            }
-
-        }
-        return total;
+    public double value(String toCurrency) {
+        return stocks.stream().mapToDouble(
+                stock -> stock.getQuantity() * RateProvider.rate(stock.getType(), toCurrency)).sum();
     }
 }

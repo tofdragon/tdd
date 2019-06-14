@@ -7,23 +7,19 @@ import java.util.Objects;
 /**
  * @author sunjing
  */
-public final class RateProvider {
+final class RateProvider {
 
-    private static Map<Pair, Integer> pairToRate = new HashMap<>();
+    private static Map<Pair, Double> pairToRate = new HashMap<>();
 
     static {
-        pairToRate.put(new Pair("petroleum", "euros"), 2);
-        pairToRate.put(new Pair("euros", "petroleum"), 1/2);
-        pairToRate.put(new Pair("petroleum", "dollars"), 3);
-        pairToRate.put(new Pair("dollars", "petroleum"), 1/3);
+        pairToRate.put(new Pair("petroleum", "euros"), 2d);
+        pairToRate.put(new Pair("euros", "petroleum"), 1/2d);
+        pairToRate.put(new Pair("petroleum", "dollars"), 3d);
+        pairToRate.put(new Pair("dollars", "petroleum"), 1/3d);
     }
 
-    public static int rate(Stock from, String toCurrency) {
-        if (from.getType().equals(toCurrency)) {
-            return from.getAmount();
-        }
-        int rate = pairToRate.get(new Pair(from.getType(), toCurrency));
-        return from.getAmount() * rate;
+    static double rate(String fromCurrency, String toCurrency) {
+        return fromCurrency.equals(toCurrency) ? 1 : pairToRate.get(new Pair(fromCurrency, toCurrency));
     }
 
     private static class Pair {
@@ -32,16 +28,16 @@ public final class RateProvider {
 
         private String to;
 
-        public Pair(String from, String to) {
+        Pair(String from, String to) {
             this.from = from;
             this.to = to;
         }
 
-        public String getFrom() {
+        String getFrom() {
             return from;
         }
 
-        public String getTo() {
+        String getTo() {
             return to;
         }
 
