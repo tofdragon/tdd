@@ -44,12 +44,19 @@ public class TicTacToeSpec {
 
     @Test
     public void givenFirstTurnWhenNextPlayerThenX() {
-        assertEquals("X", ticTacToe.nextPlayer());
+        assertEquals('X', ticTacToe.nextPlayer());
     }
 
     @Test
     public void givenLastTurnWasXWhenNextPlayerThenO() {
         ticTacToe.play(1, 1);
-        assertEquals("O", ticTacToe.nextPlayer());
+        assertEquals('O', ticTacToe.nextPlayer());
     }
+
+    @Test
+    public void whenPlayThenNoWinner() {
+        String actual = ticTacToe.play(1, 1);
+        assertEquals("No winner", actual);
+    }
+
 }

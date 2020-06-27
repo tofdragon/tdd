@@ -8,21 +8,14 @@ public class TicTacToe {
 
     private Character[][] board = {{'\0', '\0', '\0'}, {'\0', '\0', '\0'}, {'\0', '\0', '\0'}};
 
-    private String player = "X";
+    private char lastPlayer = '\0';
 
-    public void play(int x, int y) {
+    public String play(int x, int y) {
         checkAxis(x);
         checkAxis(y);
         setBox(x, y);
-        goNextPlayer();
-    }
-
-    private void goNextPlayer() {
-        if (player == "X") {
-            player = "O";
-        } else if (player == "O") {
-            player = "X";
-        }
+        lastPlayer = nextPlayer();
+        return "No winner";
     }
 
     private void checkAxis(int axis) {
@@ -39,7 +32,10 @@ public class TicTacToe {
         }
     }
 
-    public String nextPlayer() {
-        return player;
+    public char nextPlayer() {
+        if (lastPlayer == 'X') {
+            return 'O';
+        }
+        return 'X';
     }
 }
