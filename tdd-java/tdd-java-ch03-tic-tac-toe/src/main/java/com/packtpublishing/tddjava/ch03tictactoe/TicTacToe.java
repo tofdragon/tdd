@@ -1,8 +1,5 @@
 package com.packtpublishing.tddjava.ch03tictactoe;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  *
  * @author sunjing
@@ -11,10 +8,21 @@ public class TicTacToe {
 
     private Character[][] board = {{'\0', '\0', '\0'}, {'\0', '\0', '\0'}, {'\0', '\0', '\0'}};
 
+    private String player = "X";
+
     public void play(int x, int y) {
         checkAxis(x);
         checkAxis(y);
         setBox(x, y);
+        goNextPlayer();
+    }
+
+    private void goNextPlayer() {
+        if (player == "X") {
+            player = "O";
+        } else if (player == "O") {
+            player = "X";
+        }
     }
 
     private void checkAxis(int axis) {
@@ -29,5 +37,9 @@ public class TicTacToe {
         } else {
             board[x - 1][y - 1] = 'X';
         }
+    }
+
+    public String nextPlayer() {
+        return player;
     }
 }
