@@ -11,21 +11,21 @@ public class GameNumber {
         this.rawNumber =  rowNumber;
     }
 
-    private boolean isDivisibleBy(int denominator) {
-        return rawNumber % denominator == 0;
+    private boolean isDivisibleByOrContains(int denominator) {
+        return rawNumber % denominator == 0 || String.valueOf(rawNumber).contains(String.valueOf(denominator));
     }
 
     @Override
     public String toString() {
-        if (isDivisibleBy(3) && isDivisibleBy(5)) {
+        if (isDivisibleByOrContains(3) && isDivisibleByOrContains(5)) {
             return "fizzbuzz";
         }
 
-        if (isDivisibleBy(3)) {
+        if (isDivisibleByOrContains(3)) {
             return "fizz";
         }
 
-        if (isDivisibleBy(5)) {
+        if (isDivisibleByOrContains(5)) {
             return "buzz";
         }
 

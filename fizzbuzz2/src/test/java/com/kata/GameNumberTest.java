@@ -37,4 +37,11 @@ public class GameNumberTest {
 
         assertThat(gameNumber.toString(), is("fizzbuzz"));
     }
+
+    @Test
+    public void should_say_fizz_when_raw_number_is_13() {
+        GameNumber gameNumber = new GameNumber(13);
+
+        assertThat(gameNumber.toString(), is("fizz"));
+    }
 }
