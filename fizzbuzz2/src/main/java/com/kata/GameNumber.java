@@ -11,17 +11,21 @@ public class GameNumber {
         this.rawNumber =  rowNumber;
     }
 
+    private boolean isDivisibleBy(int denominator) {
+        return rawNumber % denominator == 0;
+    }
+
     @Override
     public String toString() {
-        if (rawNumber % 3 == 0 && rawNumber % 5 == 0) {
+        if (isDivisibleBy(3) && isDivisibleBy(5)) {
             return "fizzbuzz";
         }
 
-        if (rawNumber % 3 == 0) {
+        if (isDivisibleBy(3)) {
             return "fizz";
         }
 
-        if (rawNumber % 5 == 0) {
+        if (isDivisibleBy(5)) {
             return "buzz";
         }
 
