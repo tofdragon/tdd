@@ -4,33 +4,29 @@ package com.kata;
  *
  * @author sunjing
  */
-public class Length {
+public final class Length {
 
-    private int amountInInch;
+    private final int amount;
 
-    private int amount;
+    private final Unit unit;
 
-    private String unit;
-
-    public Length(int amount, String unit) {
+    public Length(int amount, Unit unit) {
         this.amount = amount;
         this.unit = unit;
-        if (unit.equals("Foot")) {
-            this.amountInInch = amount * 12;
-        } else if (unit.equals("Yard")) {
-            this.amountInInch = amount * 36;
-        } else {
-            this.amountInInch = amount;
-        }
+    }
+
+    private int getAmountInInch() {
+        return unit.getAmountInInch(this.amount);
     }
 
     @Override
     public boolean equals(Object obj) {
-        return ((Length)obj).amountInInch == this.amountInInch;
+        Length other = (Length) obj;
+        return other.getAmountInInch() == this.getAmountInInch();
     }
 
     @Override
     public String toString() {
-        return String.format("%d (%s)", this.amount, this.unit);
+        return unit.toString(this.amount);
     }
 }
