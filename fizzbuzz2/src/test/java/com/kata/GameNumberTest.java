@@ -15,4 +15,21 @@ public class GameNumberTest {
         GameNumber gameNumber = new GameNumber(1);
         assertThat(gameNumber.toString(), is("1"));
     }
+
+    @Test
+    public void should_say_fizz_when_is_3() {
+        GameNumber gameNumber = new GameNumber(3);
+        assertThat(gameNumber.toString(), is("fizz"));
+    }
+
+    @Test
+    public void should_say_buzz_when_is_5() {
+        GameNumber gameNumber = new GameNumber(5);
+        assertThat(gameNumber.toString(), is("buzz"));
+    }
+
+    @Test
+    public void should_say_fizzbuzz_when_is_15() {
+        assertThat(new GameNumber(15).toString(), is("fizzbuzz"));
+    }
 }
