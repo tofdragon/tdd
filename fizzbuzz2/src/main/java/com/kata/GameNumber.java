@@ -14,19 +14,23 @@ public class GameNumber {
 
     @Override
     public String toString() {
-        if (this.raw % 3 == 0 && this.raw % 5 == 0) {
+        if (isDivisible(3) && isDivisible(5)) {
             return "fizzbuzz";
         }
 
-        if (this.raw % 3 == 0) {
+        if (isDivisible(3)) {
             return "fizz";
         }
 
-        if (this.raw % 5 == 0) {
+        if (isDivisible(5)) {
             return "buzz";
         }
 
         return String.valueOf(raw);
+    }
+
+    private boolean isDivisible(int number) {
+        return this.raw %  number == 0;
     }
 
 }
