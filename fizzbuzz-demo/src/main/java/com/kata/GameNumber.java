@@ -5,30 +5,30 @@ package com.kata;
  */
 public class GameNumber {
 
-    private int rawNumber;
+    private final int rawNumber;
 
-    public GameNumber(int rowNumber) {
-        this.rawNumber =  rowNumber;
-    }
-
-    private boolean isRelatedTo(int denominator) {
-        return rawNumber % denominator == 0 || String.valueOf(rawNumber).contains(String.valueOf(denominator));
+    public GameNumber(int rawNumber) {
+        this.rawNumber = rawNumber;
     }
 
     @Override
     public String toString() {
-        if (isRelatedTo(3) && isRelatedTo(5)) {
+        if (isRelated(3) && isRelated(5)) {
             return "fizzbuzz";
         }
 
-        if (isRelatedTo(3)) {
+        if (isRelated(3)) {
             return "fizz";
         }
 
-        if (isRelatedTo(5)) {
+        if (isRelated(5)) {
             return "buzz";
         }
 
-        return String.valueOf(this.rawNumber);
+        return String.valueOf(rawNumber);
+    }
+
+    private boolean isRelated(int number) {
+        return this.rawNumber % number == 0 || String.valueOf(this.rawNumber).contains(String.valueOf(number));
     }
 }

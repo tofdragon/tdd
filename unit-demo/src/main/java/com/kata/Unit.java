@@ -1,25 +1,26 @@
 package com.kata;
 
 /**
+ *
  * @author sunjing
  */
-public final class Unit {
+public class Unit {
 
-    public static Unit Inch  = new Unit("Inch", 1);
-    public static Unit Foot  = new Unit("Foot", 12);
-    public static Unit Yard  = new Unit("Yard", 36);
+    public static Unit Inch = new Unit("Inch", 1);
+    public static Unit Foot = new Unit("Foot", 12);
+    public static Unit Yard = new Unit("Yard", 36);
 
-    private final String text;
+    public final String text;
 
-    private final int transferRateToInch;
+    private final int radioAsInch;
 
-    private Unit(String text, int transferRateToInch) {
+    public Unit(String text, int radioAsInch) {
         this.text = text;
-        this.transferRateToInch = transferRateToInch;
+        this.radioAsInch = radioAsInch;
     }
 
-    int getAmountInInch(int amount) {
-        return amount * transferRateToInch;
+    int getAmountAsInch(int amount) {
+        return radioAsInch * amount;
     }
 
     public String toString(int amount) {

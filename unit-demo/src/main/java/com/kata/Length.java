@@ -1,10 +1,9 @@
 package com.kata;
 
 /**
- *
  * @author sunjing
  */
-public final class Length {
+public class Length {
 
     private final int amount;
 
@@ -15,14 +14,14 @@ public final class Length {
         this.unit = unit;
     }
 
-    private int getAmountInInch() {
-        return unit.getAmountInInch(this.amount);
+    private int getAmountAsInch() {
+        return unit.getAmountAsInch(amount);
     }
 
     @Override
     public boolean equals(Object obj) {
         Length other = (Length) obj;
-        return other.getAmountInInch() == this.getAmountInInch();
+        return other.getAmountAsInch() == getAmountAsInch() ;
     }
 
     @Override
