@@ -1,12 +1,11 @@
 package com.kata;
 
 /**
- *
  * @author sunjing
  */
 public class GameNumber {
 
-    private int raw;
+    private final int raw;
 
     public GameNumber(int raw) {
         this.raw = raw;
@@ -30,7 +29,7 @@ public class GameNumber {
     }
 
     private boolean isRelateTo(int number) {
-        return this.raw %  number == 0 || String.valueOf(this.raw).contains(String.valueOf(number));
+        return this.raw % number == 0 || String.valueOf(this.raw).contains(String.valueOf(number));
     }
 
 }
