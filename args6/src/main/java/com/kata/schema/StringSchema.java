@@ -1,11 +1,9 @@
 package com.kata.schema;
 
-import com.kata.Schema;
-
 /**
  * @author sunjing
  */
-public final class StringSchema extends Schema<String> {
+public final class StringSchema extends AbstractSchema<String> {
 
     private static final String DEFAULT_VALUE = "";
 
@@ -18,7 +16,7 @@ public final class StringSchema extends Schema<String> {
     }
 
     @Override
-    protected String doParse(final String value) {
+    protected String parseValue(final String value) {
         return value;
     }
 }

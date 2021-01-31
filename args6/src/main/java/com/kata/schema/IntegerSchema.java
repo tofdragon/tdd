@@ -1,11 +1,9 @@
 package com.kata.schema;
 
-import com.kata.Schema;
-
 /**
  * @author sunjing
  */
-public final class IntegerSchema extends Schema<Integer> {
+public final class IntegerSchema extends AbstractSchema<Integer> {
 
     private static final String DEFAULT_VALUE = "0";
 
@@ -18,7 +16,7 @@ public final class IntegerSchema extends Schema<Integer> {
     }
 
     @Override
-    protected Integer doParse(final String value) {
+    protected Integer parseValue(final String value) {
         return Integer.valueOf(value);
     }
 }

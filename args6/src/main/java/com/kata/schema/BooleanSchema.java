@@ -1,11 +1,9 @@
 package com.kata.schema;
 
-import com.kata.Schema;
-
 /**
  * @author sunjing
  */
-public final class BooleanSchema extends Schema<Boolean> {
+public final class BooleanSchema extends AbstractSchema<Boolean> {
 
     private static final String DEFAULT_VALUE = "false";
 
@@ -18,7 +16,7 @@ public final class BooleanSchema extends Schema<Boolean> {
     }
 
     @Override
-    protected Boolean doParse(final String value) {
+    protected Boolean parseValue(final String value) {
         return Boolean.valueOf(value);
     }
 }

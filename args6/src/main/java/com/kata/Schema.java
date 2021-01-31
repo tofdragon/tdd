@@ -1,28 +1,22 @@
 package com.kata;
 
-import lombok.AccessLevel;
-import lombok.Getter;
+import java.util.Optional;
 
 /**
  * @author sunjing
  */
-public abstract class Schema<T> {
+public interface Schema<T> {
 
-    @Getter
-    private final String flag;
+    /**
+     * 标记
+     * @return 标记
+     */
+    String flag();
 
-    @Getter(value = AccessLevel.PRIVATE)
-    private final String defaultValue;
-
-    public Schema(final String flag, final String defaultValue) {
-        this.flag = flag;
-        this.defaultValue = defaultValue;
-    }
-
-    public T parse(String arg) {
-        String value = arg == null ? getDefaultValue() : arg;
-        return doParse(value);
-    }
-
-    protected abstract T doParse(String value);
+    /**
+     * 解析值
+     * @param value 值
+     * @return 解析后的值
+     */
+    T parse(final Optional<String> value);
 }

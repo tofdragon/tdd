@@ -4,12 +4,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.kata.Schema;
-
 /**
  * @author sunjing
  */
-public final class ListStringSchema extends Schema<List<String>> {
+public final class ListStringSchema extends AbstractSchema<List<String>> {
 
     private static final String DEFAULT_VALUE = "";
 
@@ -24,7 +22,7 @@ public final class ListStringSchema extends Schema<List<String>> {
     }
 
     @Override
-    protected List<String> doParse(final String value) {
+    protected List<String> parseValue(final String value) {
         return Stream.of(value.split(SPLIT_FLAG)).map(String::new).collect(Collectors.toList());
     }
 }
