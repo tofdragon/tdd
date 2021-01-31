@@ -42,15 +42,15 @@ String  stringValue  = argsValue.getString('d');
 
 3.1.单参数默认值
 
-3.1.1.Boolean值
+3.1.1.Boolean值 
 输入: schema:[Schema]  args:String
 输出: value:ArgsValue
    
-   场景1:
+   场景1: ok
      输入：[new Schema('l', 'Boolean', 'false')]  '-l'
      输出: false
      
-   场景2:
+   场景2: ok
      输入：[new Schema('l', 'Boolean', 'true')]  '-l'
      输出: true
      
@@ -58,11 +58,11 @@ String  stringValue  = argsValue.getString('d');
 输入: schema:[Schema]  args:String
 输出: value:ArgsValue
    
-   场景1：
+   场景1：ok
       输入: [new Schema('p', 'Integer', '0')]  '-p'
       输出: 0
       
-   场景2：
+   场景2：ok
       输入: [new Schema('p', 'Integer', '8080')]  '-p'
       输出: 8080
 
@@ -70,11 +70,11 @@ String  stringValue  = argsValue.getString('d');
 输入: schema:[Schema] args:String
 输出: value:ArgsValue
 
-   场景1：
+   场景1：ok
       输入: [new Schema('d', 'String', '0')]  '-d'
       输出: '' 
       
-   场景2：
+   场景2：ok
       输入: [new Schema('d', 'String', '/usr/logs')]  '-d'
       输出: '/usr/logs'
    
@@ -84,11 +84,11 @@ String  stringValue  = argsValue.getString('d');
 输入: schema:[Schema]  args:String
 输出: value:ArgsValue
    
-   场景1:
+   场景1: ok
      输入：[new Schema('l', 'Boolean', 'false')]  '-l true'
      输出: true
      
-   场景2:
+   场景2: ok
      输入：[new Schema('l', 'Boolean', 'true')]  '-l  false'
      输出: false
      
@@ -96,11 +96,11 @@ String  stringValue  = argsValue.getString('d');
 输入: schema:[Schema]  args:String
 输出: value:ArgsValue
    
-   场景1：
+   场景1：ok
       输入: [new Schema('p', 'Integer', '0')]  '-p 8080'
       输出: 8080
       
-3.2.3.String值
+3.2.3.String值 ok
 输入: schema:[Schema] args:String
 输出: value:ArgsValue
 
@@ -111,7 +111,7 @@ String  stringValue  = argsValue.getString('d');
 输入: schema:[Schema]  args:String
 输出: value:ArgsValue
    
-   场景1:
+   场景1: ok
      输入：[new Schema('l', 'Boolean', 'false'), new Schema('d', 'String', '0')]  '-l -d'
      输出: l:false d:'0'
         
@@ -119,7 +119,7 @@ String  stringValue  = argsValue.getString('d');
 输入: schema:[Schema]  args:String
 输出: value:ArgsValue
    
-   场景1：
+   场景1：ok
       输入: [new Schema('p', 'Integer', '0'), new Schema('d', 'String', '0')]  '-p -d'
       输出: p:0  d:''
       
@@ -127,7 +127,7 @@ String  stringValue  = argsValue.getString('d');
 输入: schema:[Schema]  args:String
 输出: value:ArgsValue
    
-   场景1：
+   场景1：ok
       输入: [new Schema('p', 'Integer', '0'), new Schema('d', 'String', '0'),new Schema('l', 'Boolean', 'false')]  '-p -d -l'
       输出: p:0  d:'' l:false
             
@@ -137,15 +137,15 @@ String  stringValue  = argsValue.getString('d');
 输入: schema:[Schema]  args:String
 输出: value:ArgsValue
    
-   场景1:
+   场景1: ok
      输入：[new Schema('l', 'Boolean', 'false'), new Schema('d', 'String', '')]  '-l true -d /usr/logs21'
      输出: l:true d:'/usr/logs21'
      
-   场景2:
+   场景2: ok
        输入：[new Schema('l', 'Boolean', 'false'), new Schema('d', 'String', '')]  '-l true -d'
        输出: l:true d:''
        
-   场景3:
+   场景3: ok
         输入：[new Schema('l', 'Boolean', 'false'), new Schema('d', 'String', '')]  '-l -d /usr/logs21'
         输出: l:false d:'/usr/logs21'    
         
@@ -153,7 +153,7 @@ String  stringValue  = argsValue.getString('d');
 输入: schema:[Schema]  args:String
 输出: value:ArgsValue
    
-   场景1：
+   场景1：ok
       输入: [new Schema('p', 'Integer', '0'), new Schema('d', 'String', '')]  '-p 9999 -d /usr/logs22'
       输出: p:9999  d:'/usr/logs22'
       
@@ -161,22 +161,22 @@ String  stringValue  = argsValue.getString('d');
 输入: schema:[Schema]  args:String
 输出: value:ArgsValue
    
-   场景1：
+   场景1：ok
       输入: [new Schema('p', 'Integer', '0'), new Schema('d', 'String', ''),new Schema('l', 'Boolean', 'false')] 
             '-p 7777 -d /usr/logs23 -l true'
       输出: p:7777  d:'/usr/logs23' l:true    
       
-   场景2：
+   场景2：ok
       输入: [new Schema('p', 'Integer', '0'), new Schema('d', 'String', ''),new Schema('l', 'Boolean', 'false')] 
                '-p -d /usr/logs23 -l true'
       输出: p:0  d:'/usr/logs23' l:true    
    
-   场景3：
+   场景3：ok
       输入: [new Schema('p', 'Integer', '0'), new Schema('d', 'String', ''),new Schema('l', 'Boolean', 'false')] 
                   '-p -d /usr/logs23 -l'
       输出: p:0  d:'/usr/logs23' l:false   
    
-   场景4：
+   场景4：ok
       输入: [new Schema('p', 'Integer', '0'), new Schema('d', 'String', ''),new Schema('l', 'Boolean', 'false')] 
                   '-p 7777 -d -l'
       输出: p:7777  d:'' l:false                           
