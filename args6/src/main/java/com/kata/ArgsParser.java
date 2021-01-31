@@ -29,7 +29,7 @@ public final class ArgsParser {
     }
 
     private List<String> toArgs(final String args) {
-       return Arrays.asList(args.split(" "));
+        return Arrays.asList(args.split(" "));
     }
 
     private String argValue(final List<String> args, final String flag) {
