@@ -14,15 +14,15 @@ import static org.junit.Assert.assertThat;
 /**
  * @author sunjing
  */
-public class ArgsParserTest {
+public class ArgumentParserTest {
 
     @Test
     public void should_false_default_value_when_boolean_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(booleanSchema("false").build());
+        ArgumentParser argumentParser = new ArgumentParser(booleanSchema("false").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-l");
+        ArgsValue argsValue = argumentParser.parse("-l");
 
         //then
         assertThat(argsValue.getValue("l"), Is.is(false));
@@ -35,10 +35,10 @@ public class ArgsParserTest {
     @Test
     public void should_true_default_value_when_boolean_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(booleanSchema("true").build());
+        ArgumentParser argumentParser = new ArgumentParser(booleanSchema("true").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-l");
+        ArgsValue argsValue = argumentParser.parse("-l");
 
         //then
         assertThat(argsValue.getValue("l"), Is.is(true));
@@ -47,10 +47,10 @@ public class ArgsParserTest {
     @Test
     public void should_0_default_value_when_integer_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(integerSchema("0").build());
+        ArgumentParser argumentParser = new ArgumentParser(integerSchema("0").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-p");
+        ArgsValue argsValue = argumentParser.parse("-p");
 
         //then
         assertThat(argsValue.getValue("p"), Is.is(0));
@@ -63,10 +63,10 @@ public class ArgsParserTest {
     @Test
     public void should_8080_default_value_when_integer_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(integerSchema("8080").build());
+        ArgumentParser argumentParser = new ArgumentParser(integerSchema("8080").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-p");
+        ArgsValue argsValue = argumentParser.parse("-p");
 
         //then
         assertThat(argsValue.getValue("p"), Is.is(8080));
@@ -75,10 +75,10 @@ public class ArgsParserTest {
     @Test
     public void should_white_default_value_when_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(stringSchema("").build());
+        ArgumentParser argumentParser = new ArgumentParser(stringSchema("").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-d");
+        ArgsValue argsValue = argumentParser.parse("-d");
 
         //then
         assertThat(argsValue.getValue("d"), Is.is(""));
@@ -91,10 +91,10 @@ public class ArgsParserTest {
     @Test
     public void should_test_default_value_when_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(stringSchema("test").build());
+        ArgumentParser argumentParser = new ArgumentParser(stringSchema("test").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-d");
+        ArgsValue argsValue = argumentParser.parse("-d");
 
         //then
         assertThat(argsValue.getValue("d"), Is.is("test"));
@@ -103,10 +103,10 @@ public class ArgsParserTest {
     @Test
     public void should_true_when_has_value_and_boolean_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(booleanSchema("false").build());
+        ArgumentParser argumentParser = new ArgumentParser(booleanSchema("false").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-l true");
+        ArgsValue argsValue = argumentParser.parse("-l true");
 
         //then
         assertThat(argsValue.getValue("l"), Is.is(true));
@@ -115,10 +115,10 @@ public class ArgsParserTest {
     @Test
     public void should_false_when_has_value_and_boolean_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(booleanSchema("true").build());
+        ArgumentParser argumentParser = new ArgumentParser(booleanSchema("true").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-l false");
+        ArgsValue argsValue = argumentParser.parse("-l false");
 
         //then
         assertThat(argsValue.getValue("l"), Is.is(false));
@@ -127,10 +127,10 @@ public class ArgsParserTest {
     @Test
     public void should_8080_when_has_value_integer_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(integerSchema("0").build());
+        ArgumentParser argumentParser = new ArgumentParser(integerSchema("0").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-p 8080");
+        ArgsValue argsValue = argumentParser.parse("-p 8080");
 
         //then
         assertThat(argsValue.getValue("p"), Is.is(8080));
@@ -139,10 +139,10 @@ public class ArgsParserTest {
     @Test
     public void should_test21_when_has_value_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(stringSchema("").build());
+        ArgumentParser argumentParser = new ArgumentParser(stringSchema("").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-d test21");
+        ArgsValue argsValue = argumentParser.parse("-d test21");
 
         //then
         assertThat(argsValue.getValue("d"), Is.is("test21"));
@@ -151,11 +151,11 @@ public class ArgsParserTest {
     @Test
     public void should_default_value_when_boolean_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser((
+        ArgumentParser argumentParser = new ArgumentParser((
                 booleanSchema("false").stringSchema("d", "0").build()));
 
         //when
-        ArgsValue argsValue = argsParser.parse("-l -d");
+        ArgsValue argsValue = argumentParser.parse("-l -d");
 
         //then
         assertThat(argsValue.getValue("l"), Is.is(false));
@@ -165,12 +165,12 @@ public class ArgsParserTest {
     @Test
     public void should_default_value_when_integer_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(
+        ArgumentParser argumentParser = new ArgumentParser(
                 integerSchema("9999").
                         stringSchema("d", "test21").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-p -d");
+        ArgsValue argsValue = argumentParser.parse("-p -d");
 
         //then
         assertThat(argsValue.getValue("p"), Is.is(9999));
@@ -180,13 +180,13 @@ public class ArgsParserTest {
     @Test
     public void should_default_value_when_boolean_integer_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(
+        ArgumentParser argumentParser = new ArgumentParser(
                 booleanSchema("false").
                         integerSchema("p", "9999").
                         stringSchema("d", "test21").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-p -d -l");
+        ArgsValue argsValue = argumentParser.parse("-p -d -l");
 
         //then
         assertThat(argsValue.getValue("l"), Is.is(false));
@@ -197,12 +197,12 @@ public class ArgsParserTest {
     @Test
     public void should_true_and_string_value_when_has_value_boolean_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(
+        ArgumentParser argumentParser = new ArgumentParser(
                 booleanSchema("false").
                         stringSchema("d", "").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-d /usr/logs -l true");
+        ArgsValue argsValue = argumentParser.parse("-d /usr/logs -l true");
 
         //then
         assertThat(argsValue.getValue("l"), Is.is(true));
@@ -212,12 +212,12 @@ public class ArgsParserTest {
     @Test
     public void should_true_and_string_value_when_boolean_has_value_boolean_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(
+        ArgumentParser argumentParser = new ArgumentParser(
                 booleanSchema("false").
                         stringSchema("d", "").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-d  -l true");
+        ArgsValue argsValue = argumentParser.parse("-d  -l true");
 
         //then
         assertThat(argsValue.getValue("l"), Is.is(true));
@@ -227,12 +227,12 @@ public class ArgsParserTest {
     @Test
     public void should_false_and_string_value_when_string_has_value_boolean_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(
+        ArgumentParser argumentParser = new ArgumentParser(
                 booleanSchema("false").
                         stringSchema("d", "").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-d /test21 -l");
+        ArgsValue argsValue = argumentParser.parse("-d /test21 -l");
 
         //then
         assertThat(argsValue.getValue("l"), Is.is(false));
@@ -242,37 +242,37 @@ public class ArgsParserTest {
     @Test
     public void should_right_value_when_boolean_integer_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(
+        ArgumentParser argumentParser = new ArgumentParser(
                 booleanSchema("false").
                         integerSchema("p", "0").
                         stringSchema("d", "").build());
 
-        assertThat(argsParser.parse("-p 7777 -d /usr/logs23 -l true").getValue("l"), Is.is(true));
-        assertThat(argsParser.parse("-p 7777 -d /usr/logs23 -l true").getValue("d"), Is.is("/usr/logs23"));
-        assertThat(argsParser.parse("-p 7777 -d /usr/logs23 -l true").getValue("p"), Is.is(7777));
+        assertThat(argumentParser.parse("-p 7777 -d /usr/logs23 -l true").getValue("l"), Is.is(true));
+        assertThat(argumentParser.parse("-p 7777 -d /usr/logs23 -l true").getValue("d"), Is.is("/usr/logs23"));
+        assertThat(argumentParser.parse("-p 7777 -d /usr/logs23 -l true").getValue("p"), Is.is(7777));
 
-        assertThat(argsParser.parse("-p -d /usr/logs23 -l true").getValue("l"), Is.is(true));
-        assertThat(argsParser.parse("-p -d /usr/logs23 -l true").getValue("d"), Is.is("/usr/logs23"));
-        assertThat(argsParser.parse("-p -d /usr/logs23 -l true").getValue("p"), Is.is(0));
+        assertThat(argumentParser.parse("-p -d /usr/logs23 -l true").getValue("l"), Is.is(true));
+        assertThat(argumentParser.parse("-p -d /usr/logs23 -l true").getValue("d"), Is.is("/usr/logs23"));
+        assertThat(argumentParser.parse("-p -d /usr/logs23 -l true").getValue("p"), Is.is(0));
 
-        assertThat(argsParser.parse("-p -d /usr/logs23 -l").getValue("l"), Is.is(false));
-        assertThat(argsParser.parse("-p -d /usr/logs23 -l").getValue("d"), Is.is("/usr/logs23"));
-        assertThat(argsParser.parse("-p -d /usr/logs23 -l").getValue("p"), Is.is(0));
+        assertThat(argumentParser.parse("-p -d /usr/logs23 -l").getValue("l"), Is.is(false));
+        assertThat(argumentParser.parse("-p -d /usr/logs23 -l").getValue("d"), Is.is("/usr/logs23"));
+        assertThat(argumentParser.parse("-p -d /usr/logs23 -l").getValue("p"), Is.is(0));
 
-        assertThat(argsParser.parse("-p 7777 -d -l").getValue("l"), Is.is(false));
-        assertThat(argsParser.parse("-p 7777 -d -l").getValue("d"), Is.is(""));
-        assertThat(argsParser.parse("-p 7777 -d -l").getValue("p"), Is.is(7777));
+        assertThat(argumentParser.parse("-p 7777 -d -l").getValue("l"), Is.is(false));
+        assertThat(argumentParser.parse("-p 7777 -d -l").getValue("d"), Is.is(""));
+        assertThat(argumentParser.parse("-p 7777 -d -l").getValue("p"), Is.is(7777));
     }
 
     @Test
     public void should_list_string_and_list_integer_when_list_string_and_list_integer_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(
+        ArgumentParser argumentParser = new ArgumentParser(
                 listStringSchema("").
                         listIntegerSchema("d", "").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-g this,is,a,list -d 1,2,-3,5,7");
+        ArgsValue argsValue = argumentParser.parse("-g this,is,a,list -d 1,2,-3,5,7");
         List<String> strings = argsValue.getValue("g");
         List<String> integers = argsValue.getValue("d");
 
@@ -292,12 +292,12 @@ public class ArgsParserTest {
     @Test(expected = DoesNotExistFlagValueException.class)
     public void should_not_found_arg_value_when_get_value_for_not_exist_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(
+        ArgumentParser argumentParser = new ArgumentParser(
                 booleanSchema("false").
                         stringSchema("d", "").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-d /test21 -l");
+        ArgsValue argsValue = argumentParser.parse("-d /test21 -l");
 
         //then
         assertThat(argsValue.getValue("-f"), Is.is("/test21"));
@@ -306,12 +306,12 @@ public class ArgsParserTest {
     @Test(expected = DoesNotExistFlagInSchemaException.class)
     public void when_arg_not_match_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(
+        ArgumentParser argumentParser = new ArgumentParser(
                 booleanSchema("false").
                         stringSchema("d", "").build());
 
         //when
-        ArgsValue argsValue = argsParser.parse("-f -d /test21 -l -d");
+        ArgsValue argsValue = argumentParser.parse("-f -d /test21 -l -d");
 
         //then
         assertThat(argsValue.getValue("-f"), Is.is("/test21"));

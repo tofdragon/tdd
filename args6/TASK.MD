@@ -27,7 +27,7 @@
     
 2.外界如何使用
 
-ArgsParser argsParser = new ArgsParser([
+ArgumentParser argumentParser = new ArgumentParser([
 new Schema('l', 'Boolean', 'false'),
 new Schema('p', 'Integer', '0'),
 new Schema('d', 'String', '')])

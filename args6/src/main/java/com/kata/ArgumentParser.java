@@ -8,11 +8,11 @@ import com.kata.value.ArgsValue;
 /**
  * @author sunjing
  */
-public final class ArgsParser {
+public final class ArgumentParser {
 
     private final Schemas schemas;
 
-    public ArgsParser(Schemas schemas) {
+    public ArgumentParser(Schemas schemas) {
         this.schemas = schemas;
     }
 
