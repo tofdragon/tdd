@@ -3,6 +3,8 @@ package com.kata;
 import org.hamcrest.core.Is;
 import org.junit.Test;
 import com.google.common.collect.Lists;
+import com.kata.exception.DoesNotExistFlagInSchemaException;
+import com.kata.exception.DoesNotExistFlagValueException;
 
 import static org.junit.Assert.assertThat;
 
@@ -258,5 +260,56 @@ public class ArgsParserTest {
         assertThat(argsParser.parse("-p 7777 -d -l").getBoolean("l"), Is.is(false));
         assertThat(argsParser.parse("-p 7777 -d -l").getString("d"), Is.is(""));
         assertThat(argsParser.parse("-p 7777 -d -l").getInteger("p"), Is.is(7777));
+    }
+
+    @Test
+    public void should_list_string_and_list_integer_when_list_string_and_list_integer_schema() {
+        //given
+        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(
+                listStringSchema(""),
+                listIntegerSchema("")));
+
+        //when
+        ArgsValue argsValue = argsParser.parse("-g this,is,a,list -d 1,2,-3,5,7");
+
+        //then
+        assertThat(argsValue.getListString("g").size(), Is.is(4));
+        assertThat(argsValue.getListInteger("d").size(), Is.is(5));
+    }
+
+    private Schema listStringSchema(String defaultValue) {
+        return new Schema("g", "ListString", defaultValue);
+    }
+
+    private Schema listIntegerSchema(String defaultValue) {
+        return new Schema("d", "ListInteger", defaultValue);
+    }
+
+    @Test(expected = DoesNotExistFlagValueException.class)
+    public void should_not_found_arg_value_when_get_value_for_not_exist_schema() {
+        //given
+        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(
+                booleanSchema("false"),
+                stringSchema("")));
+
+        //when
+        ArgsValue argsValue = argsParser.parse("-d /test21 -l");
+
+        //then
+        assertThat(argsValue.getString("-f"), Is.is("/test21"));
+    }
+
+    @Test(expected = DoesNotExistFlagInSchemaException.class)
+    public void when_arg_not_match_schema() {
+        //given
+        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(
+                booleanSchema("false"),
+                stringSchema("")));
+
+        //when
+        ArgsValue argsValue = argsParser.parse("-f -d /test21 -l -d");
+
+        //then
+        assertThat(argsValue.getString("-f"), Is.is("/test21"));
     }
 }

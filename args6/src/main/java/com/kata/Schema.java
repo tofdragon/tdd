@@ -1,5 +1,8 @@
 package com.kata;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import lombok.Getter;
 
 /**
@@ -32,6 +35,14 @@ public final class Schema {
 
         if (getType().equals("String")) {
             return value;
+        }
+
+        if (getType().equals("ListString")) {
+            return Stream.of(value.split(",")).map(String::new).collect(Collectors.toList());
+        }
+
+        if (getType().equals("ListInteger")) {
+            return Stream.of(value.split(",")).map(Integer::new).collect(Collectors.toList());
         }
 
         return value;

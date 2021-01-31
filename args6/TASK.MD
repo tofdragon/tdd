@@ -187,7 +187,7 @@ String  stringValue  = argsValue.getString('d');
 输入: schema:[Schema]  args:String
 输出: value:ArgsValue
    
-   场景1:
+   场景1: ok
      输入：[new Schema('g', 'ListString', ''), new Schema('d', 'ListInteger', '')]  '-g this,is,a,list -d 1,2,-3,5'
      输出: g:[“this”, “is”, “a”, “list”] d:[1, 2, -3, 5]
      
@@ -195,18 +195,18 @@ String  stringValue  = argsValue.getString('d');
 
 3.6.1.获取不存在Schema中的参数值,提示不存在异常
 输入: schema:[Schema]  args:String
-输出: 异常
+输出: 提示不存在
    
-   场景1：
+   场景1：ok
          输入: [new Schema('p', 'Integer', '0'), new Schema('d', 'String', ''),new Schema('l', 'Boolean', 'false')] 
                '-p 7777 -d /usr/logs23 -l true'
-         输出: t:异常 
+         输出: t:异常
    
 3.6.2.当args中传入Schema中不存在的,提示异常
 输入: schema:[Schema]  args:String
 输出: 异常
    
-   场景1：
+   场景1：ok
          输入: [new Schema('p', 'Integer', '0'), new Schema('d', 'String', ''),new Schema('l', 'Boolean', 'false')] 
                '-p 7777 -d /usr/logs23 -l true -t 2222'
          输出: 异常 

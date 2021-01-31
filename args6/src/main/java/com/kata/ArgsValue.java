@@ -1,7 +1,10 @@
 package com.kata;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import com.kata.exception.DoesNotExistFlagValueException;
 
 /**
  * @author sunjing
@@ -19,10 +22,30 @@ public final class ArgsValue {
     }
 
     public Integer getInteger(final String flag) {
-        return (Integer) flagToValue.get(flag);
+        return (Integer) value(flag);
+    }
+
+    private Object value(final String flag) {
+        checkExistFlag(flag);
+        return flagToValue.get(flag);
     }
 
     public String getString(String flag) {
-        return (String) flagToValue.get(flag);
+        checkExistFlag(flag);
+        return (String) value(flag);
+    }
+
+    private void checkExistFlag(String flag) {
+        if (!flagToValue.containsKey(flag)) {
+            throw new DoesNotExistFlagValueException(flag);
+        }
+    }
+
+    public List<String> getListString(String flag) {
+        return (List<String>) value(flag);
+    }
+
+    public List<Integer> getListInteger(String flag) {
+        return (List<Integer>) value(flag);
     }
 }
