@@ -1,5 +1,7 @@
 package com.kata;
 
+import java.util.List;
+
 import org.hamcrest.core.Is;
 import org.junit.Test;
 import com.google.common.collect.Lists;
@@ -22,7 +24,7 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-l");
 
         //then
-        assertThat(argsValue.getBoolean("l"), Is.is(false));
+        assertThat(argsValue.getValue("l"), Is.is(false));
     }
 
     private Schema booleanSchema(String defaultValue) {
@@ -38,7 +40,7 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-l");
 
         //then
-        assertThat(argsValue.getBoolean("l"), Is.is(true));
+        assertThat(argsValue.getValue("l"), Is.is(true));
     }
 
     @Test
@@ -50,7 +52,7 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-p");
 
         //then
-        assertThat(argsValue.getInteger("p"), Is.is(0));
+        assertThat(argsValue.getValue("p"), Is.is(0));
     }
 
     private Schema integerSchema(String defaultValue) {
@@ -66,7 +68,7 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-p");
 
         //then
-        assertThat(argsValue.getInteger("p"), Is.is(8080));
+        assertThat(argsValue.getValue("p"), Is.is(8080));
     }
 
     @Test
@@ -78,7 +80,7 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-d");
 
         //then
-        assertThat(argsValue.getString("d"), Is.is(""));
+        assertThat(argsValue.getValue("d"), Is.is(""));
     }
 
     private Schema stringSchema(String defaultValue) {
@@ -94,7 +96,7 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-d");
 
         //then
-        assertThat(argsValue.getString("d"), Is.is("test"));
+        assertThat(argsValue.getValue("d"), Is.is("test"));
     }
 
     @Test
@@ -106,7 +108,7 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-l true");
 
         //then
-        assertThat(argsValue.getBoolean("l"), Is.is(true));
+        assertThat(argsValue.getValue("l"), Is.is(true));
     }
 
     @Test
@@ -118,7 +120,7 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-l false");
 
         //then
-        assertThat(argsValue.getBoolean("l"), Is.is(false));
+        assertThat(argsValue.getValue("l"), Is.is(false));
     }
 
     @Test
@@ -130,7 +132,7 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-p 8080");
 
         //then
-        assertThat(argsValue.getInteger("p"), Is.is(8080));
+        assertThat(argsValue.getValue("p"), Is.is(8080));
     }
 
     @Test
@@ -142,7 +144,7 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-d test21");
 
         //then
-        assertThat(argsValue.getString("d"), Is.is("test21"));
+        assertThat(argsValue.getValue("d"), Is.is("test21"));
     }
 
     @Test
@@ -156,8 +158,8 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-l -d");
 
         //then
-        assertThat(argsValue.getBoolean("l"), Is.is(false));
-        assertThat(argsValue.getString("d"), Is.is("0"));
+        assertThat(argsValue.getValue("l"), Is.is(false));
+        assertThat(argsValue.getValue("d"), Is.is("0"));
     }
 
     @Test
@@ -171,8 +173,8 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-p -d");
 
         //then
-        assertThat(argsValue.getInteger("p"), Is.is(9999));
-        assertThat(argsValue.getString("d"), Is.is("test21"));
+        assertThat(argsValue.getValue("p"), Is.is(9999));
+        assertThat(argsValue.getValue("d"), Is.is("test21"));
     }
 
     @Test
@@ -187,9 +189,9 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-p -d -l");
 
         //then
-        assertThat(argsValue.getBoolean("l"), Is.is(false));
-        assertThat(argsValue.getInteger("p"), Is.is(9999));
-        assertThat(argsValue.getString("d"), Is.is("test21"));
+        assertThat(argsValue.getValue("l"), Is.is(false));
+        assertThat(argsValue.getValue("p"), Is.is(9999));
+        assertThat(argsValue.getValue("d"), Is.is("test21"));
     }
 
     @Test
@@ -203,8 +205,8 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-d /usr/logs -l true");
 
         //then
-        assertThat(argsValue.getBoolean("l"), Is.is(true));
-        assertThat(argsValue.getString("d"), Is.is("/usr/logs"));
+        assertThat(argsValue.getValue("l"), Is.is(true));
+        assertThat(argsValue.getValue("d"), Is.is("/usr/logs"));
     }
 
     @Test
@@ -218,8 +220,8 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-d  -l true");
 
         //then
-        assertThat(argsValue.getBoolean("l"), Is.is(true));
-        assertThat(argsValue.getString("d"), Is.is(""));
+        assertThat(argsValue.getValue("l"), Is.is(true));
+        assertThat(argsValue.getValue("d"), Is.is(""));
     }
 
     @Test
@@ -233,8 +235,8 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-d /test21 -l");
 
         //then
-        assertThat(argsValue.getBoolean("l"), Is.is(false));
-        assertThat(argsValue.getString("d"), Is.is("/test21"));
+        assertThat(argsValue.getValue("l"), Is.is(false));
+        assertThat(argsValue.getValue("d"), Is.is("/test21"));
     }
 
     @Test
@@ -245,21 +247,21 @@ public class ArgsParserTest {
                 integerSchema("0"),
                 stringSchema("")));
 
-        assertThat(argsParser.parse("-p 7777 -d /usr/logs23 -l true").getBoolean("l"), Is.is(true));
-        assertThat(argsParser.parse("-p 7777 -d /usr/logs23 -l true").getString("d"), Is.is("/usr/logs23"));
-        assertThat(argsParser.parse("-p 7777 -d /usr/logs23 -l true").getInteger("p"), Is.is(7777));
+        assertThat(argsParser.parse("-p 7777 -d /usr/logs23 -l true").getValue("l"), Is.is(true));
+        assertThat(argsParser.parse("-p 7777 -d /usr/logs23 -l true").getValue("d"), Is.is("/usr/logs23"));
+        assertThat(argsParser.parse("-p 7777 -d /usr/logs23 -l true").getValue("p"), Is.is(7777));
 
-        assertThat(argsParser.parse("-p -d /usr/logs23 -l true").getBoolean("l"), Is.is(true));
-        assertThat(argsParser.parse("-p -d /usr/logs23 -l true").getString("d"), Is.is("/usr/logs23"));
-        assertThat(argsParser.parse("-p -d /usr/logs23 -l true").getInteger("p"), Is.is(0));
+        assertThat(argsParser.parse("-p -d /usr/logs23 -l true").getValue("l"), Is.is(true));
+        assertThat(argsParser.parse("-p -d /usr/logs23 -l true").getValue("d"), Is.is("/usr/logs23"));
+        assertThat(argsParser.parse("-p -d /usr/logs23 -l true").getValue("p"), Is.is(0));
 
-        assertThat(argsParser.parse("-p -d /usr/logs23 -l").getBoolean("l"), Is.is(false));
-        assertThat(argsParser.parse("-p -d /usr/logs23 -l").getString("d"), Is.is("/usr/logs23"));
-        assertThat(argsParser.parse("-p -d /usr/logs23 -l").getInteger("p"), Is.is(0));
+        assertThat(argsParser.parse("-p -d /usr/logs23 -l").getValue("l"), Is.is(false));
+        assertThat(argsParser.parse("-p -d /usr/logs23 -l").getValue("d"), Is.is("/usr/logs23"));
+        assertThat(argsParser.parse("-p -d /usr/logs23 -l").getValue("p"), Is.is(0));
 
-        assertThat(argsParser.parse("-p 7777 -d -l").getBoolean("l"), Is.is(false));
-        assertThat(argsParser.parse("-p 7777 -d -l").getString("d"), Is.is(""));
-        assertThat(argsParser.parse("-p 7777 -d -l").getInteger("p"), Is.is(7777));
+        assertThat(argsParser.parse("-p 7777 -d -l").getValue("l"), Is.is(false));
+        assertThat(argsParser.parse("-p 7777 -d -l").getValue("d"), Is.is(""));
+        assertThat(argsParser.parse("-p 7777 -d -l").getValue("p"), Is.is(7777));
     }
 
     @Test
@@ -271,10 +273,12 @@ public class ArgsParserTest {
 
         //when
         ArgsValue argsValue = argsParser.parse("-g this,is,a,list -d 1,2,-3,5,7");
+        List<String> strings = argsValue.getValue("g");
+        List<String> integers = argsValue.getValue("d");
 
         //then
-        assertThat(argsValue.getListString("g").size(), Is.is(4));
-        assertThat(argsValue.getListInteger("d").size(), Is.is(5));
+        assertThat(strings.size(), Is.is(4));
+        assertThat(integers.size(), Is.is(5));
     }
 
     private Schema listStringSchema(String defaultValue) {
@@ -296,7 +300,7 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-d /test21 -l");
 
         //then
-        assertThat(argsValue.getString("-f"), Is.is("/test21"));
+        assertThat(argsValue.getValue("-f"), Is.is("/test21"));
     }
 
     @Test(expected = DoesNotExistFlagInSchemaException.class)
@@ -310,6 +314,6 @@ public class ArgsParserTest {
         ArgsValue argsValue = argsParser.parse("-f -d /test21 -l -d");
 
         //then
-        assertThat(argsValue.getString("-f"), Is.is("/test21"));
+        assertThat(argsValue.getValue("-f"), Is.is("/test21"));
     }
 }

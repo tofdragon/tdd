@@ -1,7 +1,6 @@
 package com.kata;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.kata.exception.DoesNotExistFlagValueException;
@@ -13,26 +12,17 @@ public final class ArgsValue {
 
     private final Map<String, Object> flagToValue = new HashMap<>();
 
-    public Boolean getBoolean(final String flag) {
-        return (Boolean) flagToValue.get(flag);
-    }
-
     public void put(final String flag, final Object value) {
         flagToValue.put(flag, value);
     }
 
-    public Integer getInteger(final String flag) {
-        return (Integer) value(flag);
+    public <T> T getValue(final String flag) {
+        return (T) value(flag);
     }
 
     private Object value(final String flag) {
         checkExistFlag(flag);
         return flagToValue.get(flag);
-    }
-
-    public String getString(String flag) {
-        checkExistFlag(flag);
-        return (String) value(flag);
     }
 
     private void checkExistFlag(String flag) {
@@ -41,11 +31,4 @@ public final class ArgsValue {
         }
     }
 
-    public List<String> getListString(String flag) {
-        return (List<String>) value(flag);
-    }
-
-    public List<Integer> getListInteger(String flag) {
-        return (List<Integer>) value(flag);
-    }
 }
