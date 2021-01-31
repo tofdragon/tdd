@@ -7,6 +7,11 @@ import org.junit.Test;
 import com.google.common.collect.Lists;
 import com.kata.exception.DoesNotExistFlagInSchemaException;
 import com.kata.exception.DoesNotExistFlagValueException;
+import com.kata.schema.BooleanSchema;
+import com.kata.schema.IntegerSchema;
+import com.kata.schema.ListIntegerSchema;
+import com.kata.schema.ListStringSchema;
+import com.kata.schema.StringSchema;
 
 import static org.junit.Assert.assertThat;
 
@@ -28,7 +33,7 @@ public class ArgsParserTest {
     }
 
     private Schema booleanSchema(String defaultValue) {
-        return new Schema("l", "Boolean", defaultValue);
+        return new BooleanSchema("l", defaultValue);
     }
 
     @Test
@@ -56,7 +61,7 @@ public class ArgsParserTest {
     }
 
     private Schema integerSchema(String defaultValue) {
-        return new Schema("p", "Integer", defaultValue);
+        return new IntegerSchema("p", defaultValue);
     }
 
     @Test
@@ -84,7 +89,7 @@ public class ArgsParserTest {
     }
 
     private Schema stringSchema(String defaultValue) {
-        return new Schema("d", "String", defaultValue);
+        return new StringSchema("d", defaultValue);
     }
 
     @Test
@@ -282,11 +287,11 @@ public class ArgsParserTest {
     }
 
     private Schema listStringSchema(String defaultValue) {
-        return new Schema("g", "ListString", defaultValue);
+        return new ListStringSchema("g", defaultValue);
     }
 
     private Schema listIntegerSchema(String defaultValue) {
-        return new Schema("d", "ListInteger", defaultValue);
+        return new ListIntegerSchema("d", defaultValue);
     }
 
     @Test(expected = DoesNotExistFlagValueException.class)

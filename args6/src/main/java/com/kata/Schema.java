@@ -1,50 +1,28 @@
 package com.kata;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
+import lombok.AccessLevel;
 import lombok.Getter;
 
 /**
  * @author sunjing
  */
-@Getter
-public final class Schema {
+public abstract class Schema<T> {
 
+    @Getter
     private final String flag;
 
-    private final String type;
-
+    @Getter(value = AccessLevel.PRIVATE)
     private final String defaultValue;
 
-    public Schema(final String flag, final String type, final String defaultValue) {
+    public Schema(final String flag, final String defaultValue) {
         this.flag = flag;
-        this.type = type;
         this.defaultValue = defaultValue;
     }
 
-    public Object parse(String arg) {
+    public T parse(String arg) {
         String value = arg == null ? getDefaultValue() : arg;
-        if (getType().equals("Boolean")) {
-            return Boolean.valueOf(value);
-        }
-
-        if (getType().equals("Integer")) {
-            return Integer.valueOf(value);
-        }
-
-        if (getType().equals("String")) {
-            return value;
-        }
-
-        if (getType().equals("ListString")) {
-            return Stream.of(value.split(",")).map(String::new).collect(Collectors.toList());
-        }
-
-        if (getType().equals("ListInteger")) {
-            return Stream.of(value.split(",")).map(Integer::new).collect(Collectors.toList());
-        }
-
-        return value;
+        return doParse(value);
     }
+
+    protected abstract T doParse(String value);
 }
