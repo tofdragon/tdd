@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.kata.exception.DoesNotExistFlagInSchemaException;
+import com.kata.schema.Schemas;
 
 /**
  * @author sunjing
@@ -14,9 +15,9 @@ final class Args {
 
     private final List<String> values;
 
-    private final List<Schema> schemas;
+    private final Schemas schemas;
 
-    Args(final String args, final List<Schema> schemas) {
+    Args(final String args, final Schemas schemas) {
         this.values = toArgs(args);
         this.schemas = schemas;
         checkArgs();
