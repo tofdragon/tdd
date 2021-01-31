@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.kata.exception.DoesNotExistFlagInSchemaException;
 import com.kata.exception.DoesNotExistFlagValueException;
 import com.kata.schema.builder.SchemasBuilder;
-import com.kata.value.ArgsValue;
 
 import static org.junit.Assert.assertThat;
 
@@ -22,10 +21,10 @@ public class ArgumentParserTest {
         ArgumentParser argumentParser = new ArgumentParser(booleanSchema("false").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-l");
+        Arguments arguments = argumentParser.parse("-l");
 
         //then
-        assertThat(argsValue.getValue("l"), Is.is(false));
+        assertThat(arguments.getValue("l"), Is.is(false));
     }
 
     private SchemasBuilder booleanSchema(String defaultValue) {
@@ -38,10 +37,10 @@ public class ArgumentParserTest {
         ArgumentParser argumentParser = new ArgumentParser(booleanSchema("true").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-l");
+        Arguments arguments = argumentParser.parse("-l");
 
         //then
-        assertThat(argsValue.getValue("l"), Is.is(true));
+        assertThat(arguments.getValue("l"), Is.is(true));
     }
 
     @Test
@@ -50,10 +49,10 @@ public class ArgumentParserTest {
         ArgumentParser argumentParser = new ArgumentParser(integerSchema("0").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-p");
+        Arguments arguments = argumentParser.parse("-p");
 
         //then
-        assertThat(argsValue.getValue("p"), Is.is(0));
+        assertThat(arguments.getValue("p"), Is.is(0));
     }
 
     private SchemasBuilder integerSchema(String defaultValue) {
@@ -66,10 +65,10 @@ public class ArgumentParserTest {
         ArgumentParser argumentParser = new ArgumentParser(integerSchema("8080").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-p");
+        Arguments arguments = argumentParser.parse("-p");
 
         //then
-        assertThat(argsValue.getValue("p"), Is.is(8080));
+        assertThat(arguments.getValue("p"), Is.is(8080));
     }
 
     @Test
@@ -78,10 +77,10 @@ public class ArgumentParserTest {
         ArgumentParser argumentParser = new ArgumentParser(stringSchema("").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-d");
+        Arguments arguments = argumentParser.parse("-d");
 
         //then
-        assertThat(argsValue.getValue("d"), Is.is(""));
+        assertThat(arguments.getValue("d"), Is.is(""));
     }
 
     private SchemasBuilder stringSchema(String defaultValue) {
@@ -94,10 +93,10 @@ public class ArgumentParserTest {
         ArgumentParser argumentParser = new ArgumentParser(stringSchema("test").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-d");
+        Arguments arguments = argumentParser.parse("-d");
 
         //then
-        assertThat(argsValue.getValue("d"), Is.is("test"));
+        assertThat(arguments.getValue("d"), Is.is("test"));
     }
 
     @Test
@@ -106,10 +105,10 @@ public class ArgumentParserTest {
         ArgumentParser argumentParser = new ArgumentParser(booleanSchema("false").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-l true");
+        Arguments arguments = argumentParser.parse("-l true");
 
         //then
-        assertThat(argsValue.getValue("l"), Is.is(true));
+        assertThat(arguments.getValue("l"), Is.is(true));
     }
 
     @Test
@@ -118,10 +117,10 @@ public class ArgumentParserTest {
         ArgumentParser argumentParser = new ArgumentParser(booleanSchema("true").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-l false");
+        Arguments arguments = argumentParser.parse("-l false");
 
         //then
-        assertThat(argsValue.getValue("l"), Is.is(false));
+        assertThat(arguments.getValue("l"), Is.is(false));
     }
 
     @Test
@@ -130,10 +129,10 @@ public class ArgumentParserTest {
         ArgumentParser argumentParser = new ArgumentParser(integerSchema("0").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-p 8080");
+        Arguments arguments = argumentParser.parse("-p 8080");
 
         //then
-        assertThat(argsValue.getValue("p"), Is.is(8080));
+        assertThat(arguments.getValue("p"), Is.is(8080));
     }
 
     @Test
@@ -142,10 +141,10 @@ public class ArgumentParserTest {
         ArgumentParser argumentParser = new ArgumentParser(stringSchema("").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-d test21");
+        Arguments arguments = argumentParser.parse("-d test21");
 
         //then
-        assertThat(argsValue.getValue("d"), Is.is("test21"));
+        assertThat(arguments.getValue("d"), Is.is("test21"));
     }
 
     @Test
@@ -155,11 +154,11 @@ public class ArgumentParserTest {
                 booleanSchema("false").stringSchema("d", "0").build()));
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-l -d");
+        Arguments arguments = argumentParser.parse("-l -d");
 
         //then
-        assertThat(argsValue.getValue("l"), Is.is(false));
-        assertThat(argsValue.getValue("d"), Is.is("0"));
+        assertThat(arguments.getValue("l"), Is.is(false));
+        assertThat(arguments.getValue("d"), Is.is("0"));
     }
 
     @Test
@@ -170,11 +169,11 @@ public class ArgumentParserTest {
                         stringSchema("d", "test21").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-p -d");
+        Arguments arguments = argumentParser.parse("-p -d");
 
         //then
-        assertThat(argsValue.getValue("p"), Is.is(9999));
-        assertThat(argsValue.getValue("d"), Is.is("test21"));
+        assertThat(arguments.getValue("p"), Is.is(9999));
+        assertThat(arguments.getValue("d"), Is.is("test21"));
     }
 
     @Test
@@ -186,12 +185,12 @@ public class ArgumentParserTest {
                         stringSchema("d", "test21").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-p -d -l");
+        Arguments arguments = argumentParser.parse("-p -d -l");
 
         //then
-        assertThat(argsValue.getValue("l"), Is.is(false));
-        assertThat(argsValue.getValue("p"), Is.is(9999));
-        assertThat(argsValue.getValue("d"), Is.is("test21"));
+        assertThat(arguments.getValue("l"), Is.is(false));
+        assertThat(arguments.getValue("p"), Is.is(9999));
+        assertThat(arguments.getValue("d"), Is.is("test21"));
     }
 
     @Test
@@ -202,11 +201,11 @@ public class ArgumentParserTest {
                         stringSchema("d", "").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-d /usr/logs -l true");
+        Arguments arguments = argumentParser.parse("-d /usr/logs -l true");
 
         //then
-        assertThat(argsValue.getValue("l"), Is.is(true));
-        assertThat(argsValue.getValue("d"), Is.is("/usr/logs"));
+        assertThat(arguments.getValue("l"), Is.is(true));
+        assertThat(arguments.getValue("d"), Is.is("/usr/logs"));
     }
 
     @Test
@@ -217,11 +216,11 @@ public class ArgumentParserTest {
                         stringSchema("d", "").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-d  -l true");
+        Arguments arguments = argumentParser.parse("-d  -l true");
 
         //then
-        assertThat(argsValue.getValue("l"), Is.is(true));
-        assertThat(argsValue.getValue("d"), Is.is(""));
+        assertThat(arguments.getValue("l"), Is.is(true));
+        assertThat(arguments.getValue("d"), Is.is(""));
     }
 
     @Test
@@ -232,11 +231,11 @@ public class ArgumentParserTest {
                         stringSchema("d", "").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-d /test21 -l");
+        Arguments arguments = argumentParser.parse("-d /test21 -l");
 
         //then
-        assertThat(argsValue.getValue("l"), Is.is(false));
-        assertThat(argsValue.getValue("d"), Is.is("/test21"));
+        assertThat(arguments.getValue("l"), Is.is(false));
+        assertThat(arguments.getValue("d"), Is.is("/test21"));
     }
 
     @Test
@@ -272,9 +271,9 @@ public class ArgumentParserTest {
                         listIntegerSchema("d", "").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-g this,is,a,list -d 1,2,-3,5,7");
-        List<String> strings = argsValue.getValue("g");
-        List<String> integers = argsValue.getValue("d");
+        Arguments arguments = argumentParser.parse("-g this,is,a,list -d 1,2,-3,5,7");
+        List<String> strings = arguments.getValue("g");
+        List<String> integers = arguments.getValue("d");
 
         //then
         assertThat(strings.size(), Is.is(4));
@@ -297,10 +296,10 @@ public class ArgumentParserTest {
                         stringSchema("d", "").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-d /test21 -l");
+        Arguments arguments = argumentParser.parse("-d /test21 -l");
 
         //then
-        assertThat(argsValue.getValue("-f"), Is.is("/test21"));
+        assertThat(arguments.getValue("-f"), Is.is("/test21"));
     }
 
     @Test(expected = DoesNotExistFlagInSchemaException.class)
@@ -311,9 +310,9 @@ public class ArgumentParserTest {
                         stringSchema("d", "").build());
 
         //when
-        ArgsValue argsValue = argumentParser.parse("-f -d /test21 -l -d");
+        Arguments arguments = argumentParser.parse("-f -d /test21 -l -d");
 
         //then
-        assertThat(argsValue.getValue("-f"), Is.is("/test21"));
+        assertThat(arguments.getValue("-f"), Is.is("/test21"));
     }
 }

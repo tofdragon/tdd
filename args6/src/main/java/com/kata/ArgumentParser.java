@@ -3,7 +3,6 @@ package com.kata;
 import java.util.Optional;
 
 import com.kata.schema.Schemas;
-import com.kata.value.ArgsValue;
 
 /**
  * @author sunjing
@@ -16,16 +15,16 @@ public final class ArgumentParser {
         this.schemas = schemas;
     }
 
-    public ArgsValue parse(final String argsString) {
-        final Args args = new Args(argsString, schemas);
+    public Arguments parse(final String commandLine) {
+        final Args args = new Args(commandLine, schemas);
 
-        final ArgsValue argsValue = new ArgsValue();
+        final Arguments arguments = new Arguments();
 
         this.schemas.stream().forEach(schema -> {
             Optional<String> argFlagValue = args.valueOf(schema.flag());
-            argsValue.put(schema.flag(), schema.parse(argFlagValue));
+            arguments.add(new Argument(schema.flag(), schema.parse(argFlagValue)));
         });
 
-        return argsValue;
+        return arguments;
     }
 }

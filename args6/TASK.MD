@@ -32,11 +32,11 @@ new Schema('l', 'Boolean', 'false'),
 new Schema('p', 'Integer', '0'),
 new Schema('d', 'String', '')])
 
-ArgsValue argsValue = ArgsParser.parse('-l -p 8080 -d /usr/logs')    
+Arguments arguments = argumentParser.parse('-l -p 8080 -d /usr/logs')    
 
-Boolean booleanValue = argsValue.getBoolean('l');
-Integer integerValue = argsValue.getInteger('p');
-String  stringValue  = argsValue.getString('d');
+Boolean booleanValue = arguments.getBoolean('l');
+Integer integerValue = arguments.getInteger('p');
+String  stringValue  = arguments.getString('d');
 
 3.任务分解
 
