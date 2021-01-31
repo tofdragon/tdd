@@ -2,7 +2,7 @@ package com.kata;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Stream;
 
 import com.kata.exception.DoesNotExistFlagValueException;
 
@@ -17,17 +17,18 @@ public final class Arguments {
         items = new ArrayList<>();
     }
 
-    public void add(Argument argument) {
-        this.items.add(argument);
+    public <T> void add(String flag, T value) {
+        this.items.add(new Argument(flag, value));
     }
 
     public <T> T getValue(String flag) {
-        Optional<Argument> argumentOptional =
-                this.items.stream().filter(argument -> argument.getFlag().equals(flag)).findFirst();
-        if (argumentOptional.isPresent()) {
-            return (T) argumentOptional.get().getValue();
-        }
+        return (T) this.items.stream()
+                .filter(argument -> argument.getFlag().equals(flag)).findFirst()
+                .orElseThrow(() -> new DoesNotExistFlagValueException(flag))
+                .getValue();
+    }
 
-        throw new DoesNotExistFlagValueException(flag);
+    public Stream<Argument> stream() {
+        return items.stream();
     }
 }
