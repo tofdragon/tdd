@@ -1,8 +1,11 @@
 package com.kata.schema;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import com.kata.Schema;
 
 /**
  * @author sunjing
@@ -23,6 +26,9 @@ public final class ListIntegerSchema extends AbstractSchema<List<Integer>> {
 
     @Override
     protected List<Integer> parseValue(final String value) {
-        return Stream.of(value.split(SPLIT_FLAG)).map(Integer::new).collect(Collectors.toList());
+        Schema<Integer> integerSchema = new IntegerSchema(flag(), getDefaultValue());
+        return Stream.of(value.split(SPLIT_FLAG))
+                .map(item -> integerSchema.parse(Optional.of(item)))
+                .collect(Collectors.toList());
     }
 }

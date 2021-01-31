@@ -14,7 +14,7 @@ public abstract class AbstractSchema<T> implements Schema<T> {
 
     private final String flag;
 
-    @Getter(value = AccessLevel.PRIVATE)
+    @Getter(value = AccessLevel.PROTECTED)
     private final String defaultValue;
 
     public AbstractSchema(final String flag, final String defaultValue) {
