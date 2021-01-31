@@ -11,10 +11,10 @@ import com.kata.Schema;
  */
 public final class Schemas {
 
-    private final List<Schema> schemas;
+    private final List<Schema> items;
 
     private Schemas() {
-        this.schemas = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
 
     public static Schemas create() {
@@ -22,10 +22,10 @@ public final class Schemas {
     }
 
     public Stream<Schema> stream() {
-        return this.schemas.stream();
+        return this.items.stream();
     }
 
     public void add(Schema schema) {
-        this.schemas.add(schema);
+        this.items.add(schema);
     }
 }
