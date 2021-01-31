@@ -10,7 +10,7 @@ import lombok.Getter;
 /**
  * @author sunjing
  */
-public abstract class AbstractSchema<T> implements Schema<T>{
+public abstract class AbstractSchema<T> implements Schema<T> {
 
     private final String flag;
 
@@ -34,6 +34,7 @@ public abstract class AbstractSchema<T> implements Schema<T>{
 
     /**
      * 解析值
+     *
      * @param value 值
      * @return 解析后的值
      */

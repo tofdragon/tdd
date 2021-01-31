@@ -4,14 +4,9 @@ import java.util.List;
 
 import org.hamcrest.core.Is;
 import org.junit.Test;
-import com.google.common.collect.Lists;
 import com.kata.exception.DoesNotExistFlagInSchemaException;
 import com.kata.exception.DoesNotExistFlagValueException;
-import com.kata.schema.BooleanSchema;
-import com.kata.schema.IntegerSchema;
-import com.kata.schema.ListIntegerSchema;
-import com.kata.schema.ListStringSchema;
-import com.kata.schema.StringSchema;
+import com.kata.schema.builder.SchemasBuilder;
 import com.kata.value.ArgsValue;
 
 import static org.junit.Assert.assertThat;
@@ -24,7 +19,7 @@ public class ArgsParserTest {
     @Test
     public void should_false_default_value_when_boolean_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(booleanSchema("false")));
+        ArgsParser argsParser = new ArgsParser(booleanSchema("false").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-l");
@@ -33,14 +28,14 @@ public class ArgsParserTest {
         assertThat(argsValue.getValue("l"), Is.is(false));
     }
 
-    private Schema booleanSchema(String defaultValue) {
-        return new BooleanSchema("l", defaultValue);
+    private SchemasBuilder booleanSchema(String defaultValue) {
+        return SchemasBuilder.builder().booleanSchema("l", defaultValue);
     }
 
     @Test
     public void should_true_default_value_when_boolean_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(booleanSchema("true")));
+        ArgsParser argsParser = new ArgsParser(booleanSchema("true").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-l");
@@ -52,7 +47,7 @@ public class ArgsParserTest {
     @Test
     public void should_0_default_value_when_integer_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(integerSchema("0")));
+        ArgsParser argsParser = new ArgsParser(integerSchema("0").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-p");
@@ -61,14 +56,14 @@ public class ArgsParserTest {
         assertThat(argsValue.getValue("p"), Is.is(0));
     }
 
-    private Schema integerSchema(String defaultValue) {
-        return new IntegerSchema("p", defaultValue);
+    private SchemasBuilder integerSchema(String defaultValue) {
+        return SchemasBuilder.builder().integerSchema("p", defaultValue);
     }
 
     @Test
     public void should_8080_default_value_when_integer_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(integerSchema("8080")));
+        ArgsParser argsParser = new ArgsParser(integerSchema("8080").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-p");
@@ -80,7 +75,7 @@ public class ArgsParserTest {
     @Test
     public void should_white_default_value_when_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(stringSchema("")));
+        ArgsParser argsParser = new ArgsParser(stringSchema("").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-d");
@@ -89,14 +84,14 @@ public class ArgsParserTest {
         assertThat(argsValue.getValue("d"), Is.is(""));
     }
 
-    private Schema stringSchema(String defaultValue) {
-        return new StringSchema("d", defaultValue);
+    private SchemasBuilder stringSchema(String defaultValue) {
+        return SchemasBuilder.builder().stringSchema("d", defaultValue);
     }
 
     @Test
     public void should_test_default_value_when_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(stringSchema("test")));
+        ArgsParser argsParser = new ArgsParser(stringSchema("test").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-d");
@@ -108,7 +103,7 @@ public class ArgsParserTest {
     @Test
     public void should_true_when_has_value_and_boolean_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(booleanSchema("false")));
+        ArgsParser argsParser = new ArgsParser(booleanSchema("false").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-l true");
@@ -120,7 +115,7 @@ public class ArgsParserTest {
     @Test
     public void should_false_when_has_value_and_boolean_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(booleanSchema("true")));
+        ArgsParser argsParser = new ArgsParser(booleanSchema("true").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-l false");
@@ -132,7 +127,7 @@ public class ArgsParserTest {
     @Test
     public void should_8080_when_has_value_integer_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(integerSchema("0")));
+        ArgsParser argsParser = new ArgsParser(integerSchema("0").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-p 8080");
@@ -144,7 +139,7 @@ public class ArgsParserTest {
     @Test
     public void should_test21_when_has_value_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(stringSchema("")));
+        ArgsParser argsParser = new ArgsParser(stringSchema("").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-d test21");
@@ -156,9 +151,8 @@ public class ArgsParserTest {
     @Test
     public void should_default_value_when_boolean_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(
-                booleanSchema("false"),
-                stringSchema("0")));
+        ArgsParser argsParser = new ArgsParser((
+                booleanSchema("false").stringSchema("d", "0").build()));
 
         //when
         ArgsValue argsValue = argsParser.parse("-l -d");
@@ -171,9 +165,9 @@ public class ArgsParserTest {
     @Test
     public void should_default_value_when_integer_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(
-                integerSchema("9999"),
-                stringSchema("test21")));
+        ArgsParser argsParser = new ArgsParser(
+                integerSchema("9999").
+                        stringSchema("d", "test21").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-p -d");
@@ -186,10 +180,10 @@ public class ArgsParserTest {
     @Test
     public void should_default_value_when_boolean_integer_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(
-                booleanSchema("false"),
-                integerSchema("9999"),
-                stringSchema("test21")));
+        ArgsParser argsParser = new ArgsParser(
+                booleanSchema("false").
+                        integerSchema("p", "9999").
+                        stringSchema("d", "test21").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-p -d -l");
@@ -203,9 +197,9 @@ public class ArgsParserTest {
     @Test
     public void should_true_and_string_value_when_has_value_boolean_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(
-                booleanSchema("false"),
-                stringSchema("")));
+        ArgsParser argsParser = new ArgsParser(
+                booleanSchema("false").
+                        stringSchema("d", "").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-d /usr/logs -l true");
@@ -218,9 +212,9 @@ public class ArgsParserTest {
     @Test
     public void should_true_and_string_value_when_boolean_has_value_boolean_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(
-                booleanSchema("false"),
-                stringSchema("")));
+        ArgsParser argsParser = new ArgsParser(
+                booleanSchema("false").
+                        stringSchema("d", "").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-d  -l true");
@@ -233,9 +227,9 @@ public class ArgsParserTest {
     @Test
     public void should_false_and_string_value_when_string_has_value_boolean_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(
-                booleanSchema("false"),
-                stringSchema("")));
+        ArgsParser argsParser = new ArgsParser(
+                booleanSchema("false").
+                        stringSchema("d", "").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-d /test21 -l");
@@ -248,10 +242,10 @@ public class ArgsParserTest {
     @Test
     public void should_right_value_when_boolean_integer_string_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(
-                booleanSchema("false"),
-                integerSchema("0"),
-                stringSchema("")));
+        ArgsParser argsParser = new ArgsParser(
+                booleanSchema("false").
+                        integerSchema("p", "0").
+                        stringSchema("d", "").build());
 
         assertThat(argsParser.parse("-p 7777 -d /usr/logs23 -l true").getValue("l"), Is.is(true));
         assertThat(argsParser.parse("-p 7777 -d /usr/logs23 -l true").getValue("d"), Is.is("/usr/logs23"));
@@ -273,9 +267,9 @@ public class ArgsParserTest {
     @Test
     public void should_list_string_and_list_integer_when_list_string_and_list_integer_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(
-                listStringSchema(""),
-                listIntegerSchema("")));
+        ArgsParser argsParser = new ArgsParser(
+                listStringSchema("").
+                        listIntegerSchema("d", "").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-g this,is,a,list -d 1,2,-3,5,7");
@@ -287,20 +281,20 @@ public class ArgsParserTest {
         assertThat(integers.size(), Is.is(5));
     }
 
-    private Schema listStringSchema(String defaultValue) {
-        return new ListStringSchema("g", defaultValue);
+    private SchemasBuilder listStringSchema(String defaultValue) {
+        return SchemasBuilder.builder().listStringSchema("g", defaultValue);
     }
 
-    private Schema listIntegerSchema(String defaultValue) {
-        return new ListIntegerSchema("d", defaultValue);
+    private SchemasBuilder listIntegerSchema(String defaultValue) {
+        return SchemasBuilder.builder().listIntegerSchema("d", defaultValue);
     }
 
     @Test(expected = DoesNotExistFlagValueException.class)
     public void should_not_found_arg_value_when_get_value_for_not_exist_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(
-                booleanSchema("false"),
-                stringSchema("")));
+        ArgsParser argsParser = new ArgsParser(
+                booleanSchema("false").
+                        stringSchema("d", "").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-d /test21 -l");
@@ -312,9 +306,9 @@ public class ArgsParserTest {
     @Test(expected = DoesNotExistFlagInSchemaException.class)
     public void when_arg_not_match_schema() {
         //given
-        ArgsParser argsParser = new ArgsParser(Lists.newArrayList(
-                booleanSchema("false"),
-                stringSchema("")));
+        ArgsParser argsParser = new ArgsParser(
+                booleanSchema("false").
+                        stringSchema("d", "").build());
 
         //when
         ArgsValue argsValue = argsParser.parse("-f -d /test21 -l -d");

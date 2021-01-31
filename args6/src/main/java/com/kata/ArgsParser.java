@@ -1,6 +1,5 @@
 package com.kata;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.kata.schema.Schemas;
@@ -13,8 +12,8 @@ public final class ArgsParser {
 
     private final Schemas schemas;
 
-    public ArgsParser(final List<Schema> schemas) {
-        this.schemas = new Schemas(schemas);
+    public ArgsParser(Schemas schemas) {
+        this.schemas = schemas;
     }
 
     public ArgsValue parse(final String argsString) {
@@ -23,8 +22,8 @@ public final class ArgsParser {
         final ArgsValue argsValue = new ArgsValue();
 
         this.schemas.stream().forEach(schema -> {
-            Optional<String> value = args.valueOf(schema.flag());
-            argsValue.put(schema.flag(), schema.parse(value));
+            Optional<String> argFlagValue = args.valueOf(schema.flag());
+            argsValue.put(schema.flag(), schema.parse(argFlagValue));
         });
 
         return argsValue;
