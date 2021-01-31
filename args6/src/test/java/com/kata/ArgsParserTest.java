@@ -12,6 +12,7 @@ import com.kata.schema.IntegerSchema;
 import com.kata.schema.ListIntegerSchema;
 import com.kata.schema.ListStringSchema;
 import com.kata.schema.StringSchema;
+import com.kata.value.ArgsValue;
 
 import static org.junit.Assert.assertThat;
 

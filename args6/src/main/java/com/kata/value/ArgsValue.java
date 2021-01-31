@@ -1,4 +1,4 @@
-package com.kata;
+package com.kata.value;
 
 import java.util.HashMap;
 import java.util.Map;
